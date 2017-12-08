@@ -1,0 +1,20 @@
+module flash_counter_500ms (
+    input clk,  // clock
+    output inc_state
+ 
+  ) {
+
+  dff stateCounter[28](.clk(clk));
+  
+  always {
+    inc_state = 1;
+    stateCounter.d = stateCounter.q + 1;
+    if (stateCounter.q <= 28b0001011111010111100001000000) {
+      inc_state = 0;
+    } 
+    if (stateCounter.q == 28b0010111110101111000010000000) {
+      stateCounter.d = 0;
+  }
+    
+}
+  }

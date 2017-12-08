@@ -1,0 +1,18 @@
+module shift (
+  input a[8],
+  input b[8],
+  input alufn[6],
+  output outshi[8]
+) {
+  always {
+    outshi[7:0] = 0;
+    case(alufn[1:0]){
+    b00: // SHL
+    outshi = a << b[2:0]; // a shifted left by 7 bits
+    b01: // SHR
+    outshi = a >> b[2:0]; // a shifted right by 7 bits 
+    b11: // SRA
+    outshi = $signed(a) >>> b[2:0]; // a shifted right by 7 bits with sign extension
+    }
+  }
+}

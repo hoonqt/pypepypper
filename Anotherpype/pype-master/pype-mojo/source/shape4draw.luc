@@ -1,0 +1,76 @@
+module shape4draw (
+    input clk,  // clock
+    input horizontaloffset[10],
+    input verticaloffset[9],
+    
+    input orientation[3],
+    output bitout
+  )
+  {
+  
+  .clk(clk) {
+    hvsyncpass hvsync;
+    newshape4 base;
+  }
+  
+
+  
+  sig counterh[11];
+  sig counterv[9];
+  
+  sig fullcounter[51];
+  sig oriented[3];
+  
+  //Example for shape 1 in folder I send you, sry for screwing with numbering
+
+
+  always {
+    counterh = hvsync.counterX;
+    counterv = hvsync.counterY;
+    base.en = ((counterh>=375+horizontaloffset & counterh<=477+horizontaloffset));    
+    if (((counterh>=375+horizontaloffset & counterh<=477+horizontaloffset)) &((counterv>=120+verticaloffset)&(counterv<=180+verticaloffset))) {
+    
+        if (orientation == 0 | orientation == 5) {
+          oriented = 0; }
+          
+        else if (orientation == 1 | orientation == 4) {
+          oriented = 1; }
+          
+       
+        else {
+          oriented = 2;}
+        
+        //Refers to where data is gonna be taken from in the case, 
+        base.orientation = oriented;
+        
+        //Reads from top most
+        if (orientation == 3 | orientation == 4 | orientation == 5) {
+            base.address = 59-(counterv-verticaloffset-120);
+         
+        }
+      
+        else {
+            base.address = counterv-verticaloffset-120;
+        }
+       
+        fullcounter = base.bitmap;
+      
+      
+        bitout = fullcounter[51-((counterh-375-horizontaloffset)/2)];
+      
+        
+      
+       
+      }
+    
+    else {
+        base.address = 999;
+        base.orientation = 0;
+        bitout = 0;
+        
+    }
+    
+    
+    
+}
+}

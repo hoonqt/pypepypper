@@ -1,0 +1,46 @@
+module selector_draw (
+    input clk,  // clock
+    input horizontaloffset[10],
+    input verticaloffset[9],
+    output bitout
+  )
+  {
+  
+  .clk(clk) {
+    hvsync_generator hvsync;
+    selector_base base;
+    flash_counter_500ms flash;
+  }
+  
+
+  
+  sig counterh[11];
+  sig counterv[9];
+  sig fullcounter[59];
+  
+  //Example for shape 1 in folder I send you, sry for screwing with numbering
+
+
+  always {
+    counterh = hvsync.CounterX;
+    counterv = hvsync.CounterY;
+    
+    if (((counterh>=367+horizontaloffset & counterh<=485+horizontaloffset)) &((counterv>=117+verticaloffset)&(counterv<=184+verticaloffset))) {
+            
+        //Reads from top most
+        base.address = counterv-verticaloffset-117;
+       
+        fullcounter = base.outdata;
+      
+        bitout = fullcounter[59-((counterh-367-horizontaloffset)/2)] & flash.inc_state;
+      
+       
+      }
+    
+    else {
+        base.address = 999;
+        bitout = 0;
+        
+    } 
+  }
+}
