@@ -82,6 +82,7 @@ module tilesort (
     shape1draw tile25_shape0;
     
     
+    
     fsm selected_tile = {S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25};
     dff tile1_orientation[3];
     dff tile2_orientation[3];
@@ -137,8 +138,12 @@ module tilesort (
     dff tile24;
     dff tile25;
     dff number_of_wins[3];
+    
+    flash_counter_500ms flasher;
   }
   alu alu;
+  
+  sig flash;
 
   always {  
     alu.alufn = 6b0; //initialize the alufn
@@ -229,6 +234,8 @@ module tilesort (
     tile25_shape0.horizontaloffset = 480;
     tile25_shape0.verticaloffset = 208;
     
+    flash = 1;
+    
     if (tile1_orientation.q > 5) tile1_orientation.d = 0;
     else if (tile1_orientation.q < 0) tile1_orientation.d = 5;
     if (tile2_orientation.q > 5) tile2_orientation.d = 0;
@@ -280,55 +287,55 @@ module tilesort (
     if (tile25_orientation.q > 5) tile25_orientation.d = 0;
     else if (tile25_orientation.q < 0) tile25_orientation.d = 5;
     tile1_shape0.orientation = tile1_orientation.q;
-    tile1_out = tile1_shape0.bitout;
+    tile1_out = tile1_shape0.bitout&flash;
     tile2_shape0.orientation = tile2_orientation.q;
-    tile2_out = tile2_shape0.bitout;
+    tile2_out = tile2_shape0.bitout&flash;
     tile3_shape0.orientation = tile3_orientation.q;
-    tile3_out = tile3_shape0.bitout;
+    tile3_out = tile3_shape0.bitout&flash;
     tile4_shape0.orientation = tile4_orientation.q;
-    tile4_out = tile4_shape0.bitout;
+    tile4_out = tile4_shape0.bitout&flash;
     tile5_shape0.orientation = tile5_orientation.q;
-    tile5_out = tile5_shape0.bitout;
+    tile5_out = tile5_shape0.bitout&flash;
     tile6_shape0.orientation = tile6_orientation.q;
-    tile6_out = tile6_shape0.bitout;
+    tile6_out = tile6_shape0.bitout&flash;
     tile7_shape0.orientation = tile7_orientation.q;
-    tile7_out = tile7_shape0.bitout;
+    tile7_out = tile7_shape0.bitout&flash;
     tile8_shape0.orientation = tile8_orientation.q;
-    tile8_out = tile8_shape0.bitout;
+    tile8_out = tile8_shape0.bitout&flash;
     tile9_shape0.orientation = tile9_orientation.q;
-    tile9_out = tile9_shape0.bitout;
+    tile9_out = tile9_shape0.bitout&flash;
     tile10_shape0.orientation = tile10_orientation.q;
-    tile10_out = tile10_shape0.bitout;
+    tile10_out = tile10_shape0.bitout&flash;
     tile11_shape0.orientation = tile11_orientation.q;
-    tile11_out = tile11_shape0.bitout;
+    tile11_out = tile11_shape0.bitout&flash;
     tile12_shape0.orientation = tile12_orientation.q;
-    tile12_out = tile12_shape0.bitout;
+    tile12_out = tile12_shape0.bitout&flash;
     tile13_shape0.orientation = tile13_orientation.q;
-    tile13_out = tile13_shape0.bitout;
+    tile13_out = tile13_shape0.bitout&flash;
     tile14_shape0.orientation = tile14_orientation.q;
-    tile14_out = tile14_shape0.bitout;
+    tile14_out = tile14_shape0.bitout&flash;
     tile15_shape0.orientation = tile15_orientation.q;
-    tile15_out = tile15_shape0.bitout;
+    tile15_out = tile15_shape0.bitout&flash;
     tile16_shape0.orientation = tile16_orientation.q;
-    tile16_out = tile16_shape0.bitout;
+    tile16_out = tile16_shape0.bitout&flash;
     tile17_shape0.orientation = tile17_orientation.q;
-    tile17_out = tile17_shape0.bitout;
+    tile17_out = tile17_shape0.bitout&flash;
     tile18_shape0.orientation = tile18_orientation.q;
-    tile18_out = tile18_shape0.bitout;
+    tile18_out = tile18_shape0.bitout&flash;
     tile19_shape0.orientation = tile19_orientation.q;
-    tile19_out = tile19_shape0.bitout;
+    tile19_out = tile19_shape0.bitout&flash;
     tile20_shape0.orientation = tile20_orientation.q;
-    tile20_out = tile20_shape0.bitout;
+    tile20_out = tile20_shape0.bitout&flash;
     tile21_shape0.orientation = tile21_orientation.q;
-    tile21_out = tile21_shape0.bitout;
+    tile21_out = tile21_shape0.bitout&flash;
     tile22_shape0.orientation = tile22_orientation.q;
-    tile22_out = tile22_shape0.bitout;
+    tile22_out = tile22_shape0.bitout&flash;
     tile23_shape0.orientation = tile23_orientation.q;
-    tile23_out = tile23_shape0.bitout;
+    tile23_out = tile23_shape0.bitout&flash;
     tile24_shape0.orientation = tile24_orientation.q;
-    tile24_out = tile24_shape0.bitout;
+    tile24_out = tile24_shape0.bitout&flash;
     tile25_shape0.orientation = tile25_orientation.q;
-    tile25_out = tile25_shape0.bitout;
+    tile25_out = tile25_shape0.bitout&flash;
     
     
     if (tile1_orientation.q == 5) {
@@ -458,7 +465,10 @@ module tilesort (
     }
 
     case (game_stage.q){
+      game_stage.WIN_THE_LEVEL:
+        flash = flasher.inc_state;
       game_stage.GAME_PLAYING:
+        flash = 1;
         case(selected_tile.q) {
     
     		selected_tile.S1:
@@ -1188,5 +1198,8 @@ module tilesort (
                            
         }
     }
+    
+    
+      
   }
 }
