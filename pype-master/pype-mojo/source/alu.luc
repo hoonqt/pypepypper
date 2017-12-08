@@ -1,0 +1,60 @@
+module alu (
+  input a[8],
+  input b[8],
+  input alufn[6],
+  output z,
+  output v,
+  output n,
+  output outalu[8]
+  ) {
+
+ // instantiate each module
+ adder8 adder8;
+ boole boole;
+ shift shift;
+ cmp cmp;
+  
+  always {
+  
+    // assign module arguments to IOs.
+    adder8.a = a;
+    adder8.b = b;
+    adder8.alufn = alufn; 
+    z = adder8.z;
+    v = adder8.v;
+    n = adder8.n; 
+    
+    boole.a = a;
+    boole.b = b;
+    boole.alufn = alufn;
+    
+    shift.a = a;
+    shift.b = b;
+    shift.alufn = alufn;
+    
+    cmp.alufn = alufn;
+    cmp.v = adder8.v;
+    cmp.n = adder8.n;
+    cmp.z = adder8.z;
+    
+    outalu = 0;
+    
+    // Evaluate different cases based on the last two digits of alufn.
+    case(alufn[5:4]){
+    
+    b00:
+    outalu = adder8.s; // output adder
+    
+    b01:
+    outalu = boole.outboo; // output boole
+        
+    b10:
+    outalu = shift.outshi; // output shifter
+        
+    b11:
+    outalu = cmp.outcmp; // output comparator
+        
+    }
+  }
+}
+

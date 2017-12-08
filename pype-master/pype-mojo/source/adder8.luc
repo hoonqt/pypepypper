@@ -1,0 +1,88 @@
+module adder8 ( // cascade of 8 1-bit full-adders
+  input a[8],
+  input b[8],
+  input alufn[6],
+  output s[8],
+  output z, // z is true when all s outputs are 0
+  output v, // v is true when addition operation overflows
+  output n // n is value of sum of last adder 
+  
+  ) {
+  
+  // create 8 1-bit full adders for cascading
+  adder adder0;
+  adder adder1;
+  adder adder2;
+  adder adder3;
+  adder adder4;
+  adder adder5;
+  adder adder6;
+  adder adder7;
+  
+  always {
+      // input a into all 1-bit adders
+      adder0.in[0] = a[0];
+      adder1.in[0] = a[1];
+      adder2.in[0] = a[2];
+      adder3.in[0] = a[3];
+      adder4.in[0] = a[4];
+      adder5.in[0] = a[5];
+      adder6.in[0] = a[6];
+      adder7.in[0] = a[7];
+     
+      // input b into all 1-bit adders
+      adder0.in[1] = b[0] ^ alufn[0];
+      adder1.in[1] = b[1] ^ alufn[0];
+      adder2.in[1] = b[2] ^ alufn[0];
+      adder3.in[1] = b[3] ^ alufn[0];
+      adder4.in[1] = b[4] ^ alufn[0];
+      adder5.in[1] = b[5] ^ alufn[0];
+      adder6.in[1] = b[6] ^ alufn[0];
+      adder7.in[1] = b[7] ^ alufn[0];
+      
+      // input alufn[0] into first adder and carry into subsequent adders
+      adder0.in[2] = alufn[0];
+      adder1.in[2] = adder0.carry;
+      adder2.in[2] = adder1.carry;
+      adder3.in[2] = adder2.carry;
+      adder4.in[2] = adder3.carry;
+      adder5.in[2] = adder4.carry;
+      adder6.in[2] = adder5.carry;
+      adder7.in[2] = adder6.carry;   
+          
+      z = ~(adder0.sum | adder1.sum | adder2.sum | adder3.sum | adder4.sum | adder5.sum | adder6.sum | adder7.sum); // if any of the sum is 1, z gives 0
+      
+      v = (a[7] & (b[7] ^ alufn[0]) & ~adder7.sum) | (~a[7] & ~(b[7] ^ alufn[0]) & adder7.sum); // if MSB of S is different from a and b (which must be the same), v gives 1
+      
+      n = adder7.sum; 
+      
+    s = 0;
+    case(alufn[1:0]) {
+    b00: // do addition
+      s[0] = adder0.sum;
+      s[1] = adder1.sum;
+      s[2] = adder2.sum;
+      s[3] = adder3.sum;
+      s[4] = adder4.sum;
+      s[5] = adder5.sum;
+      s[6] = adder6.sum;
+      s[7] = adder7.sum;
+        
+    b01: // do subtraction
+      s[0] = adder0.sum;
+      s[1] = adder1.sum;
+      s[2] = adder2.sum;
+      s[3] = adder3.sum;
+      s[4] = adder4.sum;
+      s[5] = adder5.sum;
+      s[6] = adder6.sum;
+      s[7] = adder7.sum; 
+      
+    b10: // do multiplication
+      s = a * b;  
+        
+    b11: // do modulo
+      s = a - (a/b) * b;
+    }
+  }
+}

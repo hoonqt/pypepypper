@@ -1,0 +1,17 @@
+module hvsyncpass (
+    input clk,
+    output counterX[11],
+    output counterY[9]
+  ) 
+
+  {
+  
+  .clk(clk) {
+    hvsync_generator hvsync;
+  }
+
+  always {
+    counterX = hvsync.CounterX;
+    counterY = hvsync.CounterY;
+  }
+}

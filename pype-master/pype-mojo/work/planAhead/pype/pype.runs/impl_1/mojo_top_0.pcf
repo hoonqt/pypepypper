@@ -1,0 +1,547 @@
+//! **************************************************************************
+// Written by: Map P.20131013 on Fri Dec 08 07:22:03 2017
+//! **************************************************************************
+
+SCHEMATIC START;
+COMP "clk" LOCATE = SITE "P56" LEVEL 1;
+COMP "io_button[0]" LOCATE = SITE "P137" LEVEL 1;
+COMP "io_button[1]" LOCATE = SITE "P140" LEVEL 1;
+COMP "io_button[2]" LOCATE = SITE "P139" LEVEL 1;
+COMP "io_button[3]" LOCATE = SITE "P142" LEVEL 1;
+COMP "io_button[4]" LOCATE = SITE "P138" LEVEL 1;
+COMP "vga_h_sync" LOCATE = SITE "P15" LEVEL 1;
+COMP "vga_v_sync" LOCATE = SITE "P12" LEVEL 1;
+COMP "vga_B" LOCATE = SITE "P17" LEVEL 1;
+COMP "vga_G" LOCATE = SITE "P22" LEVEL 1;
+COMP "io_led[0]" LOCATE = SITE "P97" LEVEL 1;
+COMP "io_led[1]" LOCATE = SITE "P98" LEVEL 1;
+COMP "io_led[2]" LOCATE = SITE "P94" LEVEL 1;
+COMP "io_led[3]" LOCATE = SITE "P95" LEVEL 1;
+COMP "io_led[4]" LOCATE = SITE "P92" LEVEL 1;
+COMP "io_led[5]" LOCATE = SITE "P93" LEVEL 1;
+COMP "io_led[6]" LOCATE = SITE "P87" LEVEL 1;
+COMP "io_led[7]" LOCATE = SITE "P88" LEVEL 1;
+COMP "io_led[8]" LOCATE = SITE "P84" LEVEL 1;
+COMP "vga_R" LOCATE = SITE "P24" LEVEL 1;
+PIN tiles/tile1_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile1_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile1_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile1_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile16_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile16_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile16_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile16_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile6_shape0/base_Mram__n06072_pins<9> = BEL
+        "tiles/tile6_shape0/base_Mram__n06072" PINNAME CLKAWRCLK;
+PIN tiles/tile6_shape0/base_Mram__n06071_pins<9> = BEL
+        "tiles/tile6_shape0/base_Mram__n06071" PINNAME CLKA;
+PIN tiles/tile15_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile15_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile15_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile15_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile5_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile5_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile5_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile5_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile14_shape0/base_Mram__n06072_pins<9> = BEL
+        "tiles/tile14_shape0/base_Mram__n06072" PINNAME CLKAWRCLK;
+PIN tiles/tile14_shape0/base_Mram__n06071_pins<9> = BEL
+        "tiles/tile14_shape0/base_Mram__n06071" PINNAME CLKA;
+PIN tiles/tile25_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile25_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile25_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile25_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile13_shape0/base_Mram__n06072_pins<9> = BEL
+        "tiles/tile13_shape0/base_Mram__n06072" PINNAME CLKAWRCLK;
+PIN tiles/tile13_shape0/base_Mram__n06071_pins<9> = BEL
+        "tiles/tile13_shape0/base_Mram__n06071" PINNAME CLKA;
+PIN tiles/tile24_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile24_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile24_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile24_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile19_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile19_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile19_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile19_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile3_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile3_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile3_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile3_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile9_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile9_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile9_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile9_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile18_shape0/base_Mram__n06072_pins<9> = BEL
+        "tiles/tile18_shape0/base_Mram__n06072" PINNAME CLKAWRCLK;
+PIN tiles/tile18_shape0/base_Mram__n06071_pins<9> = BEL
+        "tiles/tile18_shape0/base_Mram__n06071" PINNAME CLKA;
+PIN tiles/tile2_shape0/base_Mram__n07872_pins<9> = BEL
+        "tiles/tile2_shape0/base_Mram__n07872" PINNAME CLKAWRCLK;
+PIN tiles/tile2_shape0/base_Mram__n07871_pins<9> = BEL
+        "tiles/tile2_shape0/base_Mram__n07871" PINNAME CLKA;
+PIN tiles/tile8_shape0/base_Mram__n06072_pins<9> = BEL
+        "tiles/tile8_shape0/base_Mram__n06072" PINNAME CLKAWRCLK;
+PIN tiles/tile8_shape0/base_Mram__n06071_pins<9> = BEL
+        "tiles/tile8_shape0/base_Mram__n06071" PINNAME CLKA;
+TIMEGRP clk = BEL "tiles/M_tile11_orientation_q_0" BEL
+        "tiles/M_tile11_orientation_q_1" BEL "tiles/M_tile11_orientation_q_2"
+        BEL "tiles/M_selected_tile_q_FSM_FFd1" BEL
+        "tiles/M_selected_tile_q_FSM_FFd2" BEL
+        "tiles/M_selected_tile_q_FSM_FFd3" BEL
+        "tiles/M_selected_tile_q_FSM_FFd4" BEL
+        "tiles/M_selected_tile_q_FSM_FFd5" BEL
+        "tiles/M_tile12_orientation_q_0" BEL "tiles/M_tile12_orientation_q_1"
+        BEL "tiles/M_tile12_orientation_q_2" PIN
+        "tiles/tile1_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile1_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile1_shape0/base/address_reg_5" BEL
+        "tiles/tile1_shape0/base/address_reg_4" BEL
+        "tiles/tile1_shape0/base/address_reg_3" BEL
+        "tiles/tile1_shape0/base/address_reg_2" BEL
+        "tiles/tile1_shape0/base/address_reg_1" BEL
+        "tiles/tile1_shape0/base/address_reg_0" BEL
+        "tiles/tile1_shape0/base/orient_reg_1" BEL
+        "tiles/tile1_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile13_orientation_q_0" BEL "tiles/M_tile13_orientation_q_1"
+        BEL "tiles/M_tile13_orientation_q_2" BEL
+        "tiles/tile7_shape0/base/raddr_7" BEL
+        "tiles/tile7_shape0/base/raddr_6" BEL
+        "tiles/tile7_shape0/base/raddr_5" BEL
+        "tiles/tile7_shape0/base/raddr_4" BEL
+        "tiles/tile7_shape0/base/raddr_3" BEL
+        "tiles/tile7_shape0/base/raddr_2" BEL
+        "tiles/tile7_shape0/base/raddr_1" BEL
+        "tiles/tile7_shape0/base/raddr_0" BEL
+        "tiles/tile7_shape0/base/address_reg_5" BEL
+        "tiles/tile7_shape0/base/address_reg_4" BEL
+        "tiles/tile7_shape0/base/address_reg_3" BEL
+        "tiles/tile7_shape0/base/address_reg_2" BEL
+        "tiles/tile7_shape0/base/address_reg_1" BEL
+        "tiles/tile7_shape0/base/address_reg_0" BEL
+        "tiles/tile7_shape0/base/orient_reg_1" BEL
+        "tiles/tile7_shape0/base/orient_reg_0" BEL
+        "tiles/tile10_shape0/base/raddr_7" BEL
+        "tiles/tile10_shape0/base/raddr_6" BEL
+        "tiles/tile10_shape0/base/raddr_5" BEL
+        "tiles/tile10_shape0/base/raddr_4" BEL
+        "tiles/tile10_shape0/base/raddr_3" BEL
+        "tiles/tile10_shape0/base/raddr_2" BEL
+        "tiles/tile10_shape0/base/raddr_1" BEL
+        "tiles/tile10_shape0/base/raddr_0" BEL
+        "tiles/tile10_shape0/base/address_reg_5" BEL
+        "tiles/tile10_shape0/base/address_reg_4" BEL
+        "tiles/tile10_shape0/base/address_reg_3" BEL
+        "tiles/tile10_shape0/base/address_reg_2" BEL
+        "tiles/tile10_shape0/base/address_reg_1" BEL
+        "tiles/tile10_shape0/base/address_reg_0" BEL
+        "tiles/tile10_shape0/base/orient_reg_1" BEL
+        "tiles/tile10_shape0/base/orient_reg_0" BEL
+        "tiles/tile21_shape0/base/raddr_7" BEL
+        "tiles/tile21_shape0/base/raddr_6" BEL
+        "tiles/tile21_shape0/base/raddr_5" BEL
+        "tiles/tile21_shape0/base/raddr_4" BEL
+        "tiles/tile21_shape0/base/raddr_3" BEL
+        "tiles/tile21_shape0/base/raddr_2" BEL
+        "tiles/tile21_shape0/base/raddr_1" BEL
+        "tiles/tile21_shape0/base/raddr_0" BEL
+        "tiles/tile21_shape0/base/address_reg_5" BEL
+        "tiles/tile21_shape0/base/address_reg_4" BEL
+        "tiles/tile21_shape0/base/address_reg_3" BEL
+        "tiles/tile21_shape0/base/address_reg_2" BEL
+        "tiles/tile21_shape0/base/address_reg_1" BEL
+        "tiles/tile21_shape0/base/address_reg_0" BEL
+        "tiles/tile21_shape0/base/orient_reg_1" BEL
+        "tiles/tile21_shape0/base/orient_reg_0" PIN
+        "tiles/tile16_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile16_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile16_shape0/base/address_reg_5" BEL
+        "tiles/tile16_shape0/base/address_reg_4" BEL
+        "tiles/tile16_shape0/base/address_reg_3" BEL
+        "tiles/tile16_shape0/base/address_reg_2" BEL
+        "tiles/tile16_shape0/base/address_reg_1" BEL
+        "tiles/tile16_shape0/base/address_reg_0" BEL
+        "tiles/tile16_shape0/base/orient_reg_1" BEL
+        "tiles/tile16_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile14_orientation_q_0" BEL "tiles/M_tile14_orientation_q_1"
+        BEL "tiles/M_tile14_orientation_q_2" BEL
+        "tiles/M_tile20_orientation_q_0" BEL "tiles/M_tile15_orientation_q_0"
+        BEL "tiles/M_tile20_orientation_q_1" BEL
+        "tiles/M_tile15_orientation_q_1" BEL "tiles/M_tile20_orientation_q_2"
+        BEL "tiles/M_tile15_orientation_q_2" BEL
+        "tiles/M_tile21_orientation_q_0" BEL "tiles/M_tile16_orientation_q_0"
+        BEL "tiles/M_tile21_orientation_q_1" BEL
+        "tiles/M_tile16_orientation_q_1" BEL "tiles/M_tile21_orientation_q_2"
+        BEL "tiles/M_tile16_orientation_q_2" PIN
+        "tiles/tile6_shape0/base_Mram__n06072_pins<9>" PIN
+        "tiles/tile6_shape0/base_Mram__n06071_pins<9>" BEL
+        "tiles/tile6_shape0/base/address_reg_5" BEL
+        "tiles/tile6_shape0/base/address_reg_4" BEL
+        "tiles/tile6_shape0/base/address_reg_3" BEL
+        "tiles/tile6_shape0/base/address_reg_2" BEL
+        "tiles/tile6_shape0/base/address_reg_1" BEL
+        "tiles/tile6_shape0/base/address_reg_0" BEL
+        "tiles/tile6_shape0/base/orient_reg_1" BEL
+        "tiles/tile6_shape0/base/orient_reg_0" PIN
+        "tiles/tile15_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile15_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile15_shape0/base/address_reg_5" BEL
+        "tiles/tile15_shape0/base/address_reg_4" BEL
+        "tiles/tile15_shape0/base/address_reg_3" BEL
+        "tiles/tile15_shape0/base/address_reg_2" BEL
+        "tiles/tile15_shape0/base/address_reg_1" BEL
+        "tiles/tile15_shape0/base/address_reg_0" BEL
+        "tiles/tile15_shape0/base/orient_reg_1" BEL
+        "tiles/tile15_shape0/base/orient_reg_0" BEL
+        "tiles/tile20_shape0/base/raddr_7" BEL
+        "tiles/tile20_shape0/base/raddr_6" BEL
+        "tiles/tile20_shape0/base/raddr_5" BEL
+        "tiles/tile20_shape0/base/raddr_4" BEL
+        "tiles/tile20_shape0/base/raddr_3" BEL
+        "tiles/tile20_shape0/base/raddr_2" BEL
+        "tiles/tile20_shape0/base/raddr_1" BEL
+        "tiles/tile20_shape0/base/raddr_0" BEL
+        "tiles/tile20_shape0/base/address_reg_5" BEL
+        "tiles/tile20_shape0/base/address_reg_4" BEL
+        "tiles/tile20_shape0/base/address_reg_3" BEL
+        "tiles/tile20_shape0/base/address_reg_2" BEL
+        "tiles/tile20_shape0/base/address_reg_1" BEL
+        "tiles/tile20_shape0/base/address_reg_0" BEL
+        "tiles/tile20_shape0/base/orient_reg_1" BEL
+        "tiles/tile20_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile22_orientation_q_0" BEL "tiles/M_tile17_orientation_q_0"
+        BEL "tiles/M_tile22_orientation_q_1" BEL
+        "tiles/M_tile17_orientation_q_1" BEL "tiles/M_tile22_orientation_q_2"
+        BEL "tiles/M_tile17_orientation_q_2" BEL
+        "tiles/M_selected_tile_q_FSM_FFd1_1" BEL
+        "tiles/M_selected_tile_q_FSM_FFd1_2" BEL
+        "tiles/M_tile1_orientation_q_0" BEL "tiles/M_tile1_orientation_q_1"
+        BEL "tiles/M_tile1_orientation_q_2" BEL
+        "tiles/M_tile18_orientation_q_0" BEL "tiles/M_tile23_orientation_q_0"
+        BEL "tiles/M_tile23_orientation_q_1" BEL
+        "tiles/M_tile18_orientation_q_1" BEL "tiles/M_tile23_orientation_q_2"
+        BEL "tiles/M_tile18_orientation_q_2" BEL
+        "tiles/M_tile2_orientation_q_0" BEL "tiles/M_tile2_orientation_q_1"
+        BEL "tiles/M_tile2_orientation_q_2" BEL
+        "tiles/M_selected_tile_q_FSM_FFd2_1" BEL
+        "tiles/M_tile3_orientation_q_0" BEL "tiles/M_tile24_orientation_q_0"
+        BEL "tiles/M_tile3_orientation_q_1" BEL
+        "tiles/M_tile19_orientation_q_0" BEL "tiles/M_tile24_orientation_q_1"
+        BEL "tiles/M_tile3_orientation_q_2" BEL
+        "tiles/M_tile19_orientation_q_1" BEL "tiles/M_tile24_orientation_q_2"
+        BEL "tiles/M_tile19_orientation_q_2" BEL
+        "tiles/selector/flash/M_stateCounter_q_27" BEL
+        "tiles/selector/flash/M_stateCounter_q_26" BEL
+        "tiles/selector/flash/M_stateCounter_q_25" BEL
+        "tiles/selector/flash/M_stateCounter_q_24" BEL
+        "tiles/selector/flash/M_stateCounter_q_23" BEL
+        "tiles/selector/flash/M_stateCounter_q_22" BEL
+        "tiles/selector/flash/M_stateCounter_q_21" BEL
+        "tiles/selector/flash/M_stateCounter_q_20" BEL
+        "tiles/selector/flash/M_stateCounter_q_19" BEL
+        "tiles/selector/flash/M_stateCounter_q_18" BEL
+        "tiles/selector/flash/M_stateCounter_q_17" BEL
+        "tiles/selector/flash/M_stateCounter_q_16" BEL
+        "tiles/selector/flash/M_stateCounter_q_15" BEL
+        "tiles/selector/flash/M_stateCounter_q_14" BEL
+        "tiles/selector/flash/M_stateCounter_q_13" BEL
+        "tiles/selector/flash/M_stateCounter_q_12" BEL
+        "tiles/selector/flash/M_stateCounter_q_11" BEL
+        "tiles/selector/flash/M_stateCounter_q_10" BEL
+        "tiles/selector/flash/M_stateCounter_q_9" BEL
+        "tiles/selector/flash/M_stateCounter_q_8" BEL
+        "tiles/selector/flash/M_stateCounter_q_7" BEL
+        "tiles/selector/flash/M_stateCounter_q_6" BEL
+        "tiles/selector/flash/M_stateCounter_q_5" BEL
+        "tiles/selector/flash/M_stateCounter_q_4" BEL
+        "tiles/selector/flash/M_stateCounter_q_3" BEL
+        "tiles/selector/flash/M_stateCounter_q_2" BEL
+        "tiles/selector/flash/M_stateCounter_q_1" BEL
+        "tiles/selector/flash/M_stateCounter_q_0" PIN
+        "tiles/tile5_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile5_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile5_shape0/base/address_reg_5" BEL
+        "tiles/tile5_shape0/base/address_reg_4" BEL
+        "tiles/tile5_shape0/base/address_reg_3" BEL
+        "tiles/tile5_shape0/base/address_reg_2" BEL
+        "tiles/tile5_shape0/base/address_reg_1" BEL
+        "tiles/tile5_shape0/base/address_reg_0" BEL
+        "tiles/tile5_shape0/base/orient_reg_1" BEL
+        "tiles/tile5_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile25_orientation_q_0" BEL "tiles/M_tile25_orientation_q_1"
+        BEL "tiles/M_tile25_orientation_q_2" PIN
+        "tiles/tile14_shape0/base_Mram__n06072_pins<9>" PIN
+        "tiles/tile14_shape0/base_Mram__n06071_pins<9>" BEL
+        "tiles/tile14_shape0/base/address_reg_5" BEL
+        "tiles/tile14_shape0/base/address_reg_4" BEL
+        "tiles/tile14_shape0/base/address_reg_3" BEL
+        "tiles/tile14_shape0/base/address_reg_2" BEL
+        "tiles/tile14_shape0/base/address_reg_1" BEL
+        "tiles/tile14_shape0/base/address_reg_0" BEL
+        "tiles/tile14_shape0/base/orient_reg_1" BEL
+        "tiles/tile14_shape0/base/orient_reg_0" BEL
+        "tiles/M_selected_tile_q_FSM_FFd3_1" BEL
+        "tiles/M_selected_tile_q_FSM_FFd3_2" PIN
+        "tiles/tile25_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile25_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile25_shape0/base/address_reg_5" BEL
+        "tiles/tile25_shape0/base/address_reg_4" BEL
+        "tiles/tile25_shape0/base/address_reg_3" BEL
+        "tiles/tile25_shape0/base/address_reg_2" BEL
+        "tiles/tile25_shape0/base/address_reg_1" BEL
+        "tiles/tile25_shape0/base/address_reg_0" BEL
+        "tiles/tile25_shape0/base/orient_reg_1" BEL
+        "tiles/tile25_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile4_orientation_q_0" BEL "tiles/M_tile4_orientation_q_1"
+        BEL "tiles/M_tile4_orientation_q_2" BEL
+        "tiles/M_tile5_orientation_q_0" BEL "tiles/M_tile5_orientation_q_1"
+        BEL "tiles/M_selected_tile_q_FSM_FFd4_1" BEL
+        "tiles/M_tile5_orientation_q_2" BEL
+        "tiles/M_selected_tile_q_FSM_FFd4_2" BEL
+        "tiles/M_selected_tile_q_FSM_FFd5_1" BEL
+        "tiles/M_tile6_orientation_q_0" BEL "tiles/M_tile6_orientation_q_1"
+        BEL "tiles/M_tile6_orientation_q_2" BEL
+        "tiles/tile4_shape0/base/raddr_7" BEL
+        "tiles/tile4_shape0/base/raddr_6" BEL
+        "tiles/tile4_shape0/base/raddr_5" BEL
+        "tiles/tile4_shape0/base/raddr_4" BEL
+        "tiles/tile4_shape0/base/raddr_3" BEL
+        "tiles/tile4_shape0/base/raddr_2" BEL
+        "tiles/tile4_shape0/base/raddr_1" BEL
+        "tiles/tile4_shape0/base/raddr_0" BEL
+        "tiles/tile4_shape0/base/address_reg_5" BEL
+        "tiles/tile4_shape0/base/address_reg_4" BEL
+        "tiles/tile4_shape0/base/address_reg_3" BEL
+        "tiles/tile4_shape0/base/address_reg_2" BEL
+        "tiles/tile4_shape0/base/address_reg_1" BEL
+        "tiles/tile4_shape0/base/address_reg_0" BEL
+        "tiles/tile4_shape0/base/orient_reg_1" BEL
+        "tiles/tile4_shape0/base/orient_reg_0" PIN
+        "tiles/tile13_shape0/base_Mram__n06072_pins<9>" PIN
+        "tiles/tile13_shape0/base_Mram__n06071_pins<9>" BEL
+        "tiles/tile13_shape0/base/address_reg_5" BEL
+        "tiles/tile13_shape0/base/address_reg_4" BEL
+        "tiles/tile13_shape0/base/address_reg_3" BEL
+        "tiles/tile13_shape0/base/address_reg_2" BEL
+        "tiles/tile13_shape0/base/address_reg_1" BEL
+        "tiles/tile13_shape0/base/address_reg_0" BEL
+        "tiles/tile13_shape0/base/orient_reg_1" BEL
+        "tiles/tile13_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile7_orientation_q_0" BEL "tiles/M_tile7_orientation_q_1"
+        BEL "tiles/M_tile7_orientation_q_2" PIN
+        "tiles/tile24_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile24_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile24_shape0/base/address_reg_5" BEL
+        "tiles/tile24_shape0/base/address_reg_4" BEL
+        "tiles/tile24_shape0/base/address_reg_3" BEL
+        "tiles/tile24_shape0/base/address_reg_2" BEL
+        "tiles/tile24_shape0/base/address_reg_1" BEL
+        "tiles/tile24_shape0/base/address_reg_0" BEL
+        "tiles/tile24_shape0/base/orient_reg_1" BEL
+        "tiles/tile24_shape0/base/orient_reg_0" PIN
+        "tiles/tile19_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile19_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile19_shape0/base/address_reg_5" BEL
+        "tiles/tile19_shape0/base/address_reg_4" BEL
+        "tiles/tile19_shape0/base/address_reg_3" BEL
+        "tiles/tile19_shape0/base/address_reg_2" BEL
+        "tiles/tile19_shape0/base/address_reg_1" BEL
+        "tiles/tile19_shape0/base/address_reg_0" BEL
+        "tiles/tile19_shape0/base/orient_reg_1" BEL
+        "tiles/tile19_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile8_orientation_q_0" BEL "tiles/M_tile8_orientation_q_1"
+        BEL "tiles/M_tile8_orientation_q_2" BEL
+        "tiles/M_tile9_orientation_q_0" BEL "tiles/M_tile9_orientation_q_1"
+        BEL "tiles/M_tile9_orientation_q_2" PIN
+        "tiles/tile3_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile3_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile3_shape0/base/address_reg_5" BEL
+        "tiles/tile3_shape0/base/address_reg_4" BEL
+        "tiles/tile3_shape0/base/address_reg_3" BEL
+        "tiles/tile3_shape0/base/address_reg_2" BEL
+        "tiles/tile3_shape0/base/address_reg_1" BEL
+        "tiles/tile3_shape0/base/address_reg_0" BEL
+        "tiles/tile3_shape0/base/orient_reg_1" BEL
+        "tiles/tile3_shape0/base/orient_reg_0" PIN
+        "tiles/tile9_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile9_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile9_shape0/base/address_reg_5" BEL
+        "tiles/tile9_shape0/base/address_reg_4" BEL
+        "tiles/tile9_shape0/base/address_reg_3" BEL
+        "tiles/tile9_shape0/base/address_reg_2" BEL
+        "tiles/tile9_shape0/base/address_reg_1" BEL
+        "tiles/tile9_shape0/base/address_reg_0" BEL
+        "tiles/tile9_shape0/base/orient_reg_1" BEL
+        "tiles/tile9_shape0/base/orient_reg_0" BEL
+        "tiles/tile12_shape0/base/raddr_7" BEL
+        "tiles/tile12_shape0/base/raddr_6" BEL
+        "tiles/tile12_shape0/base/raddr_5" BEL
+        "tiles/tile12_shape0/base/raddr_4" BEL
+        "tiles/tile12_shape0/base/raddr_3" BEL
+        "tiles/tile12_shape0/base/raddr_2" BEL
+        "tiles/tile12_shape0/base/raddr_1" BEL
+        "tiles/tile12_shape0/base/raddr_0" BEL
+        "tiles/tile12_shape0/base/address_reg_5" BEL
+        "tiles/tile12_shape0/base/address_reg_4" BEL
+        "tiles/tile12_shape0/base/address_reg_3" BEL
+        "tiles/tile12_shape0/base/address_reg_2" BEL
+        "tiles/tile12_shape0/base/address_reg_1" BEL
+        "tiles/tile12_shape0/base/address_reg_0" BEL
+        "tiles/tile12_shape0/base/orient_reg_1" BEL
+        "tiles/tile12_shape0/base/orient_reg_0" BEL
+        "tiles/tile23_shape0/base/raddr_7" BEL
+        "tiles/tile23_shape0/base/raddr_6" BEL
+        "tiles/tile23_shape0/base/raddr_5" BEL
+        "tiles/tile23_shape0/base/raddr_4" BEL
+        "tiles/tile23_shape0/base/raddr_3" BEL
+        "tiles/tile23_shape0/base/raddr_2" BEL
+        "tiles/tile23_shape0/base/raddr_1" BEL
+        "tiles/tile23_shape0/base/raddr_0" BEL
+        "tiles/tile23_shape0/base/address_reg_5" BEL
+        "tiles/tile23_shape0/base/address_reg_4" BEL
+        "tiles/tile23_shape0/base/address_reg_3" BEL
+        "tiles/tile23_shape0/base/address_reg_2" BEL
+        "tiles/tile23_shape0/base/address_reg_1" BEL
+        "tiles/tile23_shape0/base/address_reg_0" BEL
+        "tiles/tile23_shape0/base/orient_reg_1" BEL
+        "tiles/tile23_shape0/base/orient_reg_0" PIN
+        "tiles/tile18_shape0/base_Mram__n06072_pins<9>" PIN
+        "tiles/tile18_shape0/base_Mram__n06071_pins<9>" BEL
+        "tiles/tile18_shape0/base/address_reg_5" BEL
+        "tiles/tile18_shape0/base/address_reg_4" BEL
+        "tiles/tile18_shape0/base/address_reg_3" BEL
+        "tiles/tile18_shape0/base/address_reg_2" BEL
+        "tiles/tile18_shape0/base/address_reg_1" BEL
+        "tiles/tile18_shape0/base/address_reg_0" BEL
+        "tiles/tile18_shape0/base/orient_reg_1" BEL
+        "tiles/tile18_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile10_orientation_q_0" BEL "tiles/M_tile10_orientation_q_1"
+        PIN "tiles/tile2_shape0/base_Mram__n07872_pins<9>" PIN
+        "tiles/tile2_shape0/base_Mram__n07871_pins<9>" BEL
+        "tiles/tile2_shape0/base/address_reg_5" BEL
+        "tiles/tile2_shape0/base/address_reg_4" BEL
+        "tiles/tile2_shape0/base/address_reg_3" BEL
+        "tiles/tile2_shape0/base/address_reg_2" BEL
+        "tiles/tile2_shape0/base/address_reg_1" BEL
+        "tiles/tile2_shape0/base/address_reg_0" BEL
+        "tiles/tile2_shape0/base/orient_reg_1" BEL
+        "tiles/tile2_shape0/base/orient_reg_0" BEL
+        "tiles/M_tile10_orientation_q_2" PIN
+        "tiles/tile8_shape0/base_Mram__n06072_pins<9>" PIN
+        "tiles/tile8_shape0/base_Mram__n06071_pins<9>" BEL
+        "tiles/tile8_shape0/base/address_reg_5" BEL
+        "tiles/tile8_shape0/base/address_reg_4" BEL
+        "tiles/tile8_shape0/base/address_reg_3" BEL
+        "tiles/tile8_shape0/base/address_reg_2" BEL
+        "tiles/tile8_shape0/base/address_reg_1" BEL
+        "tiles/tile8_shape0/base/address_reg_0" BEL
+        "tiles/tile8_shape0/base/orient_reg_1" BEL
+        "tiles/tile8_shape0/base/orient_reg_0" BEL
+        "tiles/tile11_shape0/base/raddr_7" BEL
+        "tiles/tile11_shape0/base/raddr_6" BEL
+        "tiles/tile11_shape0/base/raddr_5" BEL
+        "tiles/tile11_shape0/base/raddr_4" BEL
+        "tiles/tile11_shape0/base/raddr_3" BEL
+        "tiles/tile11_shape0/base/raddr_2" BEL
+        "tiles/tile11_shape0/base/raddr_1" BEL
+        "tiles/tile11_shape0/base/raddr_0" BEL
+        "tiles/tile11_shape0/base/address_reg_5" BEL
+        "tiles/tile11_shape0/base/address_reg_4" BEL
+        "tiles/tile11_shape0/base/address_reg_3" BEL
+        "tiles/tile11_shape0/base/address_reg_2" BEL
+        "tiles/tile11_shape0/base/address_reg_1" BEL
+        "tiles/tile11_shape0/base/address_reg_0" BEL
+        "tiles/tile11_shape0/base/orient_reg_1" BEL
+        "tiles/tile11_shape0/base/orient_reg_0" BEL
+        "tiles/counter/M_stateCounter_q_23" BEL
+        "tiles/counter/M_stateCounter_q_22" BEL
+        "tiles/counter/M_stateCounter_q_21" BEL
+        "tiles/counter/M_stateCounter_q_20" BEL
+        "tiles/counter/M_stateCounter_q_19" BEL
+        "tiles/counter/M_stateCounter_q_18" BEL
+        "tiles/counter/M_stateCounter_q_17" BEL
+        "tiles/counter/M_stateCounter_q_16" BEL
+        "tiles/counter/M_stateCounter_q_15" BEL
+        "tiles/counter/M_stateCounter_q_14" BEL
+        "tiles/counter/M_stateCounter_q_13" BEL
+        "tiles/counter/M_stateCounter_q_12" BEL
+        "tiles/counter/M_stateCounter_q_11" BEL
+        "tiles/counter/M_stateCounter_q_10" BEL
+        "tiles/counter/M_stateCounter_q_9" BEL
+        "tiles/counter/M_stateCounter_q_8" BEL
+        "tiles/counter/M_stateCounter_q_7" BEL
+        "tiles/counter/M_stateCounter_q_6" BEL
+        "tiles/counter/M_stateCounter_q_5" BEL
+        "tiles/counter/M_stateCounter_q_4" BEL
+        "tiles/counter/M_stateCounter_q_3" BEL
+        "tiles/counter/M_stateCounter_q_2" BEL
+        "tiles/counter/M_stateCounter_q_1" BEL
+        "tiles/counter/M_stateCounter_q_0" BEL
+        "tiles/tile17_shape0/base/raddr_7" BEL
+        "tiles/tile17_shape0/base/raddr_6" BEL
+        "tiles/tile17_shape0/base/raddr_5" BEL
+        "tiles/tile17_shape0/base/raddr_4" BEL
+        "tiles/tile17_shape0/base/raddr_3" BEL
+        "tiles/tile17_shape0/base/raddr_2" BEL
+        "tiles/tile17_shape0/base/raddr_1" BEL
+        "tiles/tile17_shape0/base/raddr_0" BEL
+        "tiles/tile17_shape0/base/address_reg_5" BEL
+        "tiles/tile17_shape0/base/address_reg_4" BEL
+        "tiles/tile17_shape0/base/address_reg_3" BEL
+        "tiles/tile17_shape0/base/address_reg_2" BEL
+        "tiles/tile17_shape0/base/address_reg_1" BEL
+        "tiles/tile17_shape0/base/address_reg_0" BEL
+        "tiles/tile17_shape0/base/orient_reg_1" BEL
+        "tiles/tile17_shape0/base/orient_reg_0" BEL
+        "tiles/tile22_shape0/base/raddr_7" BEL
+        "tiles/tile22_shape0/base/raddr_6" BEL
+        "tiles/tile22_shape0/base/raddr_5" BEL
+        "tiles/tile22_shape0/base/raddr_4" BEL
+        "tiles/tile22_shape0/base/raddr_3" BEL
+        "tiles/tile22_shape0/base/raddr_2" BEL
+        "tiles/tile22_shape0/base/raddr_1" BEL
+        "tiles/tile22_shape0/base/raddr_0" BEL
+        "tiles/tile22_shape0/base/address_reg_5" BEL
+        "tiles/tile22_shape0/base/address_reg_4" BEL
+        "tiles/tile22_shape0/base/address_reg_3" BEL
+        "tiles/tile22_shape0/base/address_reg_2" BEL
+        "tiles/tile22_shape0/base/address_reg_1" BEL
+        "tiles/tile22_shape0/base/address_reg_0" BEL
+        "tiles/tile22_shape0/base/orient_reg_1" BEL
+        "tiles/tile22_shape0/base/orient_reg_0" BEL "syncgen/vga_VS" BEL
+        "syncgen/vga_HS" BEL "syncgen/inDisplayArea" BEL "syncgen/CounterX_0"
+        BEL "syncgen/CounterX_1" BEL "syncgen/CounterX_2" BEL
+        "syncgen/CounterX_3" BEL "syncgen/CounterX_4" BEL "syncgen/CounterX_5"
+        BEL "syncgen/CounterX_6" BEL "syncgen/CounterX_7" BEL
+        "syncgen/CounterX_8" BEL "syncgen/CounterX_9" BEL
+        "syncgen/CounterX_10" BEL "syncgen/CounterY_0" BEL
+        "syncgen/CounterY_1" BEL "syncgen/CounterY_2" BEL "syncgen/CounterY_3"
+        BEL "syncgen/CounterY_4" BEL "syncgen/CounterY_5" BEL
+        "syncgen/CounterY_6" BEL "syncgen/CounterY_7" BEL "syncgen/CounterY_8"
+        BEL "syncgen/CounterX_0_1" BEL "syncgen/CounterX_1_1" BEL
+        "syncgen/CounterX_2_1" BEL "syncgen/CounterX_4_1" BEL
+        "syncgen/CounterX_0_2" BEL "syncgen/CounterX_2_2" BEL
+        "syncgen/CounterX_3_1" BEL "syncgen/CounterX_3_2" BEL
+        "syncgen/CounterX_4_2" BEL "syncgen/CounterX_0_3" BEL
+        "syncgen/CounterX_1_2" BEL "syncgen/CounterX_2_3" BEL
+        "syncgen/CounterX_4_3" BEL "syncgen/CounterX_3_3" BEL
+        "syncgen/CounterX_0_4" BEL "syncgen/CounterX_1_3" BEL
+        "syncgen/CounterX_4_4" BEL "syncgen/CounterX_3_4" BEL
+        "syncgen/CounterX_1_4" BEL "syncgen/CounterY_4_1" BEL
+        "syncgen/CounterY_4_2" BEL "syncgen/CounterY_2_1" BEL
+        "syncgen/CounterY_2_2" BEL "syncgen/CounterX_0_5" BEL
+        "syncgen/CounterX_0_6" BEL "syncgen/CounterX_2_4" BEL
+        "syncgen/CounterX_7_1" BEL "syncgen/CounterX_7_2" BEL
+        "syncgen/CounterX_9_1" BEL "syncgen/CounterX_9_2" BEL
+        "syncgen/CounterX_1_5" BEL "syncgen/CounterY_6_1" BEL
+        "syncgen/CounterY_0_1" BEL "syncgen/CounterY_0_2" BEL
+        "syncgen/CounterY_1_1" BEL "syncgen/CounterY_1_2" BEL
+        "syncgen/CounterX_8_1" BEL "syncgen/CounterX_5_1" BEL
+        "syncgen/CounterX_5_2" BEL "syncgen/CounterY_3_1" BEL
+        "syncgen/CounterY_3_2" BEL "syncgen/CounterX_6_1" BEL
+        "syncgen/CounterY_5_1" BEL "syncgen/CounterY_5_2" BEL
+        "syncgen/CounterX_4_5" BEL "vga_R" BEL "io_led_0" BEL "io_led_1" BEL
+        "io_led_2" BEL "io_led_3" BEL "io_led_4" BEL "io_led_5" BEL
+        "clk_BUFGP/BUFG";
+TS_clk = PERIOD TIMEGRP "clk" 25 MHz HIGH 50%;
+SCHEMATIC END;
+
