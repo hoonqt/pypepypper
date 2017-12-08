@@ -368,9 +368,9 @@ module tilesort (
     } if (tile6_orientation.q != 2) {
 	tile6.d = 0;
     }
-    if (tile7_orientation.q == 0) {
+    if (tile7_orientation.q == 0 | tile7_orientation.q == 3) {
 	tile7.d = 1;
-    } if (tile7_orientation.q != 0) {
+    } if (tile7_orientation.q != 0 | tile7_orientation.q != 3) {
 	tile7.d = 0;
     }
     if (tile8_orientation.q == 0) {
@@ -443,9 +443,9 @@ module tilesort (
     } if (tile21_orientation.q != 2) {
 	tile21.d = 0;
     }
-    if (tile22_orientation.q == 0) {
+    if (tile22_orientation.q == 0 | tile22_orientation.q == 3) {
 	tile22.d = 1;
-    } if (tile22_orientation.q != 30) {
+    } if (tile22_orientation.q != 0 | tile22_orientation.q != 3) {
 	tile22.d = 0;
     }
     if (tile23_orientation.q == 1) {
