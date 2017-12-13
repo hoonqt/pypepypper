@@ -28,15 +28,10 @@ module selector_draw_3 (
   );
   wire [59-1:0] M_base_outdata;
   reg [7-1:0] M_base_address;
-  selector_base_31 base (
+  selector_base_38 base (
     .clk(clk),
     .address(M_base_address),
     .outdata(M_base_outdata)
-  );
-  wire [1-1:0] M_flash_inc_state;
-  flash_counter_500ms_32 flash (
-    .clk(clk),
-    .inc_state(M_flash_inc_state)
   );
   
   reg [10:0] counterh;
@@ -48,10 +43,10 @@ module selector_draw_3 (
   always @* begin
     counterh = M_hvsync_CounterX;
     counterv = M_hvsync_CounterY;
-    if (((counterh >= 9'h16f + horizontaloffset & counterh <= 9'h1e5 + horizontaloffset)) & ((counterv >= 7'h75 + verticaloffset) & (counterv <= 8'hb8 + verticaloffset))) begin
+    if (((counterh >= 9'h18d + horizontaloffset & counterh <= 10'h203 + horizontaloffset)) & ((counterv >= 7'h75 + verticaloffset) & (counterv <= 8'hb6 + verticaloffset))) begin
       M_base_address = counterv - verticaloffset - 7'h75;
       fullcounter = M_base_outdata;
-      bitout = fullcounter[(6'h3b - ((counterh - 9'h16f - horizontaloffset) / 2'h2))*1+0-:1] & M_flash_inc_state;
+      bitout = fullcounter[(6'h3b - ((counterh - 9'h18d - horizontaloffset) / 2'h2))*1+0-:1];
     end else begin
       M_base_address = 10'h3e7;
       bitout = 1'h0;

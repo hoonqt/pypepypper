@@ -9,7 +9,6 @@ module selector_draw (
   .clk(clk) {
     hvsync_generator hvsync;
     selector_base base;
-    flash_counter_500ms flash;
   }
   
 
@@ -25,14 +24,14 @@ module selector_draw (
     counterh = hvsync.CounterX;
     counterv = hvsync.CounterY;
     
-    if (((counterh>=367+horizontaloffset & counterh<=485+horizontaloffset)) &((counterv>=117+verticaloffset)&(counterv<=184+verticaloffset))) {
+    if (((counterh>=397+horizontaloffset & counterh<=515+horizontaloffset)) &((counterv>=117+verticaloffset)&(counterv<=182+verticaloffset))) {
             
         //Reads from top most
         base.address = counterv-verticaloffset-117;
        
         fullcounter = base.outdata;
       
-        bitout = fullcounter[59-((counterh-367-horizontaloffset)/2)] & flash.inc_state;
+        bitout = fullcounter[59-((counterh-397-horizontaloffset)/2)];
       
        
       }

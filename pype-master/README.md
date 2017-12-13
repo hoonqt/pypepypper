@@ -8,5 +8,8 @@ A 5x5 grid made up of hexagonal tiles is given to the player, each tile containi
 
 Achieving players might even be rewarded with something special.
 
+# Project log
+Read the full project log here. Six weeks of headache, heartbreak and a fruitful encounter with gate-level design and driving display signals: [https://www.evernote.com/shard/s475/sh/132dfe13-083d-4699-9e67-08651aa2eb69/798d24c205a623f29569fdced04369e8](https://www.evernote.com/shard/s475/sh/132dfe13-083d-4699-9e67-08651aa2eb69/798d24c205a623f29569fdced04369e8)
+
 # How to play
 ![]( https://github.com/joel-huang/pype/blob/master/pype-poster-01.png?raw=true "pype")

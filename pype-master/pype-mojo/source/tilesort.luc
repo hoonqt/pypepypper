@@ -1,12 +1,13 @@
 // consider rename to game_manager.
 
 module tilesort (
-    input clk,  // clock
+    input clk, input rst,
     input up,
     input down,
     input left,
     input right,
-    input center,
+    input rotate_left,
+    input rotate_right,
     output tile1_out,
     output tile2_out,
     output tile3_out,
@@ -32,19 +33,14 @@ module tilesort (
     output tile23_out,
     output tile24_out,
     output tile25_out,
-        
-    output selector_out,
-    output debug1,
-    output debug2,
-    output debug3,
-    output debug4
-    
+    output debug1,output debug_play, output debug_winlevel, output debug_wingame,output led4, output led5,
+    output selector_out
   )
   {
   
   
   .clk(clk) {
-  
+    
     selector_draw selector;
     stateCounter counter;
     
@@ -55,31 +51,42 @@ module tilesort (
     // 16 17 18 19 20
     // 21 22 23 24 25
     
-    shape5draw tile1_shape0;
-    shape1draw tile2_shape0;
-    shape1draw tile3_shape0;
-    shape2draw tile4_shape0;
-    shape1draw tile5_shape0;
-    shape4draw tile6_shape0;
-    shape0draw tile7_shape0;
-    shape4draw tile8_shape0;
-    shape1draw tile9_shape0;
-    shape2draw tile10_shape0;
-    shape3draw tile11_shape0;
-    shape3draw tile12_shape0;
-    shape4draw tile13_shape0;
-    shape4draw tile14_shape0;
-    shape1draw tile15_shape0;
-    shape1draw tile16_shape0;
-    shape2draw tile17_shape0;
-    shape4draw tile18_shape0;
-    shape1draw tile19_shape0;
-    shape3draw tile20_shape0;
-    shape3draw tile21_shape0;
-    shape0draw tile22_shape0;
-    shape2draw tile23_shape0;
-    shape5draw tile24_shape0;
-    shape1draw tile25_shape0;
+    shape0draw shape0_a;
+    shape0draw shape0_b;
+    shape0draw shape0_c;
+    shape0draw shape0_d;
+    shape0draw shape0_e;
+    
+    shape1draw shape1_a;
+    shape1draw shape1_b;
+    shape1draw shape1_c;
+    shape1draw shape1_d;
+    shape1draw shape1_e;
+    shape1draw shape1_f;
+    shape1draw shape1_g;
+    
+    shape2draw shape2_a;
+    shape2draw shape2_b;
+    shape2draw shape2_c;
+    shape2draw shape2_d;
+    shape2draw shape2_e;
+    
+    shape3draw shape3_a;
+    shape3draw shape3_b;
+    shape3draw shape3_c;
+    shape3draw shape3_d;
+    shape3draw shape3_e;
+    shape3draw shape3_f;
+    
+    shape4draw shape4_a;
+    shape4draw shape4_b;
+    shape4draw shape4_c;
+    shape4draw shape4_d;
+    shape4draw shape4_e;
+    
+    shape5draw shape5_a;
+    shape5draw shape5_b;
+    shape5draw shape5_c;
     
     
     
@@ -112,435 +119,652 @@ module tilesort (
     
     fsm game_stage = {GAME_PLAYING , WIN_THE_LEVEL, WIN_THE_GAME};
     
-    dff tile1;
-    dff tile2;
-    dff tile3;
-    dff tile4;
-    dff tile5;
-    dff tile6;
-    dff tile7;
-    dff tile8;
-    dff tile9;
-    dff tile10;
-    dff tile11;
-    dff tile12;
-    dff tile13;
-    dff tile14;
-    dff tile15;
-    dff tile16;
-    dff tile17;
-    dff tile18;
-    dff tile19;
-    dff tile20;
-    dff tile21;
-    dff tile22;
-    dff tile23;
-    dff tile24;
-    dff tile25;
-    dff number_of_wins[3];
+    dff number_of_wins[2];
     
-    flash_counter_500ms flasher;
+    
   }
   alu alu;
-  
-  sig flash;
-
+  alu alutile1;
+  alu alutile2;
+  alu alutile3;
+  alu alutile4;
+  alu alutile5;
+  alu alutile6;
+  alu alutile7;
+  alu alutile8;
+  alu alutile9;
+  alu alutile10;
+  alu alutile11;
+  alu alutile12;
+  alu alutile13;
+  alu alutile14;
+  alu alutile15;
+  alu alutile16;
+  alu alutile17;
+  alu alutile18;
+  alu alutile19;
+  alu alutile20;
+  alu alutile21;
+  alu alutile22;
+  alu alutile23;
+  alu alutile24;
+  alu alutile25;
+  sig is_correct_solution;
+  rngesus rng(.clk(clk),.rst(rst));
   always {  
     alu.alufn = 6b0; //initialize the alufn
     alu.a = 8b0; // initialize alu.a;
     alu.b = 8b0; //initialize alu.b;
-
-    debug1 = 0;
-    debug2 = 0;
-    debug3 = 0;
-    debug4 = 0;
-   
+    debug_play = 0;
+    debug_winlevel=0; debug_wingame = 0;
     selector.horizontaloffset = 0;
     selector.verticaloffset = 0;
-    selector_out = selector.bitout;
-   
-    tile1_shape0.horizontaloffset = 0;
-    tile1_shape0.verticaloffset = 0;
+    is_correct_solution = 0;
+    selector_out = selector.bitout & !is_correct_solution;
+    rng.seed = 1234;
+    rng.next = 1;
     
-    tile2_shape0.horizontaloffset = 120;
-    tile2_shape0.verticaloffset = 0;
+    tile1_orientation.d = rng.num[2:0]-1;
+    tile2_orientation.d = rng.num[5:3]-1;
+    tile3_orientation.d = rng.num[4:2]-1;
+    tile4_orientation.d = rng.num[2:0]-1;
+    tile5_orientation.d = rng.num[3:1]-1;
+    tile6_orientation.d = rng.num[9:7]-1;
+    tile7_orientation.d = rng.num[6:4]-1;
+    tile8_orientation.d = rng.num[5:3]-1;
+    tile9_orientation.d = rng.num[2:0]-1;
+    tile10_orientation.d = rng.num[4:2]-1;
+    tile11_orientation.d = rng.num[9:7]-1;
+    tile12_orientation.d = rng.num[7:5]-1;
+    tile13_orientation.d = rng.num[5:3]-1;
+    tile14_orientation.d = rng.num[2:0]-1;
+    tile15_orientation.d = rng.num[3:1]-1;
+    tile16_orientation.d = rng.num[7:5]-1;
+    tile17_orientation.d = rng.num[6:4]-1;
+    tile18_orientation.d = rng.num[3:1]-1;
+    tile19_orientation.d = rng.num[3:1]-1;
+    tile20_orientation.d = rng.num[2:0]-1;
+    tile21_orientation.d = rng.num[4:2]-1;
+    tile22_orientation.d = rng.num[9:7]-1;
+    tile23_orientation.d = rng.num[5:3]-1;
+    tile24_orientation.d = rng.num[7:5]-1;
+    tile25_orientation.d = rng.num[6:4]-1;
     
-    tile3_shape0.horizontaloffset = 240;
-    tile3_shape0.verticaloffset = 0;
+    if (tile1_orientation.q > 6) tile1_orientation.d = 1;
+    else if (tile1_orientation.q < 1) tile1_orientation.d = 6;
+    else tile1_orientation.d = tile1_orientation.q;
+    if (tile2_orientation.q > 6) tile2_orientation.d = 1;
+    else if (tile2_orientation.q < 1) tile2_orientation.d = 6;
+    else tile2_orientation.d = tile2_orientation.q;
+    if (tile3_orientation.q > 6) tile3_orientation.d = 1;
+    else if (tile3_orientation.q < 1) tile3_orientation.d = 6;
+    else tile3_orientation.d = tile3_orientation.q;
+    if (tile4_orientation.q > 6) tile4_orientation.d = 1;
+    else if (tile4_orientation.q < 1) tile4_orientation.d = 6;
+    else tile4_orientation.d = tile4_orientation.q;
+    if (tile5_orientation.q > 6) tile5_orientation.d = 1;
+    else if (tile5_orientation.q < 1) tile5_orientation.d = 6;
+    else tile5_orientation.d = tile5_orientation.q;
+    if (tile6_orientation.q > 6) tile6_orientation.d = 1;
+    else if (tile6_orientation.q < 1) tile6_orientation.d = 6;
+    else tile6_orientation.d = tile6_orientation.q;
+    if (tile7_orientation.q > 6) tile7_orientation.d = 1;
+    else if (tile7_orientation.q < 1) tile7_orientation.d = 6;
+    else tile7_orientation.d = tile7_orientation.q;
+    if (tile8_orientation.q > 6) tile8_orientation.d = 1;
+    else if (tile8_orientation.q < 1) tile8_orientation.d = 6;
+    else tile8_orientation.d = tile8_orientation.q;
+    if (tile9_orientation.q > 6) tile9_orientation.d = 1;
+    else if (tile9_orientation.q < 1) tile9_orientation.d = 6;
+    else tile9_orientation.d = tile9_orientation.q;
+    if (tile10_orientation.q > 6) tile10_orientation.d = 1;
+    else if (tile10_orientation.q < 1) tile10_orientation.d = 6;
+    else tile10_orientation.d = tile10_orientation.q;
+    if (tile11_orientation.q > 6) tile11_orientation.d = 1;
+    else if (tile11_orientation.q < 1) tile11_orientation.d = 6;
+    else tile11_orientation.d = tile11_orientation.q;
+    if (tile12_orientation.q > 6) tile12_orientation.d = 1;
+    else if (tile12_orientation.q < 1) tile12_orientation.d = 6;
+    else tile12_orientation.d = tile12_orientation.q;
+    if (tile13_orientation.q > 6) tile13_orientation.d = 1;
+    else if (tile13_orientation.q < 1) tile13_orientation.d = 6;
+    else tile13_orientation.d = tile13_orientation.q;
+    if (tile14_orientation.q > 6) tile14_orientation.d = 1;
+    else if (tile14_orientation.q < 1) tile14_orientation.d = 6;
+    else tile14_orientation.d = tile14_orientation.q;
+    if (tile15_orientation.q > 6) tile15_orientation.d = 1;
+    else if (tile15_orientation.q < 1) tile15_orientation.d = 6;
+    else tile15_orientation.d = tile15_orientation.q;
+    if (tile16_orientation.q > 6) tile16_orientation.d = 1;
+    else if (tile16_orientation.q < 1) tile16_orientation.d = 6;
+    else tile16_orientation.d = tile16_orientation.q;
+    if (tile17_orientation.q > 6) tile17_orientation.d = 1;
+    else if (tile17_orientation.q < 1) tile17_orientation.d = 6;
+    else tile17_orientation.d = tile17_orientation.q;
+    if (tile18_orientation.q > 6) tile18_orientation.d = 1;
+    else if (tile18_orientation.q < 1) tile18_orientation.d = 6;
+    else tile18_orientation.d = tile18_orientation.q;
+    if (tile19_orientation.q > 6) tile19_orientation.d = 1;
+    else if (tile19_orientation.q < 1) tile19_orientation.d = 6;
+    else tile19_orientation.d = tile19_orientation.q;
+    if (tile20_orientation.q > 6) tile20_orientation.d = 1;
+    else if (tile20_orientation.q < 1) tile20_orientation.d = 6;
+    else tile20_orientation.d = tile20_orientation.q;
+    if (tile21_orientation.q > 6) tile21_orientation.d = 1;
+    else if (tile21_orientation.q < 1) tile21_orientation.d = 6;
+    else tile21_orientation.d = tile21_orientation.q;
+    if (tile22_orientation.q > 6) tile22_orientation.d = 1;
+    else if (tile22_orientation.q < 1) tile22_orientation.d = 6;
+    else tile22_orientation.d = tile22_orientation.q;
+    if (tile23_orientation.q > 6) tile23_orientation.d = 1;
+    else if (tile23_orientation.q < 1) tile23_orientation.d = 6;
+    else tile23_orientation.d = tile23_orientation.q;
+    if (tile24_orientation.q > 6) tile24_orientation.d = 1;
+    else if (tile24_orientation.q < 1) tile24_orientation.d = 6;
+    else tile24_orientation.d = tile24_orientation.q;
+    if (tile25_orientation.q > 6) tile25_orientation.d = 1;
+    else if (tile25_orientation.q < 1) tile25_orientation.d = 6;
+    else tile25_orientation.d = tile25_orientation.q;
     
-    tile4_shape0.horizontaloffset = 360;
-    tile4_shape0.verticaloffset = 0;
-   
-    tile5_shape0.horizontaloffset = 480;
-    tile5_shape0.verticaloffset = 0;
-   
-    tile6_shape0.horizontaloffset = 60;
-    tile6_shape0.verticaloffset = 52;
+    if (number_of_wins.q>1) number_of_wins.d = 0;
     
-    tile7_shape0.horizontaloffset = 180;
-    tile7_shape0.verticaloffset = 52;
+    alutile1.a = tile1_orientation.q;
+    alutile2.a = tile2_orientation.q;
+    alutile3.a = tile3_orientation.q;
+    alutile4.a = tile4_orientation.q;
+    alutile5.a = tile5_orientation.q;
+    alutile6.a = tile6_orientation.q;
+    alutile7.a = tile7_orientation.q;
+    alutile8.a = tile8_orientation.q;
+    alutile9.a = tile9_orientation.q;
+    alutile10.a = tile10_orientation.q;
+    alutile11.a = tile11_orientation.q;
+    alutile12.a = tile12_orientation.q;
+    alutile13.a = tile13_orientation.q;
+    alutile14.a = tile14_orientation.q;
+    alutile15.a = tile15_orientation.q;
+    alutile16.a = tile16_orientation.q;
+    alutile17.a = tile17_orientation.q;
+    alutile18.a = tile18_orientation.q;
+    alutile19.a = tile19_orientation.q;
+    alutile20.a = tile20_orientation.q;
+    alutile21.a = tile21_orientation.q;
+    alutile22.a = tile22_orientation.q;
+    alutile23.a = tile23_orientation.q;
+    alutile24.a = tile24_orientation.q;
+    alutile25.a = tile25_orientation.q;
     
-    tile8_shape0.horizontaloffset = 300;
-    tile8_shape0.verticaloffset = 52;
+    alutile1.alufn = 6b110011;
+    alutile2.alufn = 6b110011;
+    alutile3.alufn = 6b110011;
+    alutile4.alufn = 6b110011;
+    alutile5.alufn = 6b110011;
+    alutile6.alufn = 6b110011;
+    alutile7.alufn = 6b110011;
+    alutile8.alufn = 6b110011;
+    alutile9.alufn = 6b110011;
+    alutile10.alufn = 6b110011;
+    alutile11.alufn = 6b110011;
+    alutile12.alufn = 6b110011;
+    alutile13.alufn = 6b110011;
+    alutile14.alufn = 6b110011;
+    alutile15.alufn = 6b110011;
+    alutile16.alufn = 6b110011;
+    alutile17.alufn = 6b110011;
+    alutile18.alufn = 6b110011;
+    alutile19.alufn = 6b110011;
+    alutile20.alufn = 6b110011;
+    alutile21.alufn = 6b110011;
+    alutile22.alufn = 6b110011;
+    alutile23.alufn = 6b110011;
+    alutile24.alufn = 6b110011;
+    alutile25.alufn = 6b110011;
     
-    tile9_shape0.horizontaloffset = 420;
-    tile9_shape0.verticaloffset = 52;
-    
-    tile10_shape0.horizontaloffset = 540;
-    tile10_shape0.verticaloffset = 52;
-    
-    tile11_shape0.horizontaloffset = 0;
-    tile11_shape0.verticaloffset = 104;
-    
-    tile12_shape0.horizontaloffset = 120;
-    tile12_shape0.verticaloffset = 104;
-    
-    tile13_shape0.horizontaloffset = 240;
-    tile13_shape0.verticaloffset = 104;
-    
-    tile14_shape0.horizontaloffset = 360;
-    tile14_shape0.verticaloffset = 104;
-    
-    tile15_shape0.horizontaloffset = 480;
-    tile15_shape0.verticaloffset = 104;
-    
-    tile16_shape0.horizontaloffset = 60;
-    tile16_shape0.verticaloffset = 156;
-    
-    tile17_shape0.horizontaloffset = 180;
-    tile17_shape0.verticaloffset = 156;
-    
-    tile18_shape0.horizontaloffset = 300;
-    tile18_shape0.verticaloffset = 156;
-    
-    tile19_shape0.horizontaloffset = 420;
-    tile19_shape0.verticaloffset = 156;
-    
-    tile20_shape0.horizontaloffset = 540;
-    tile20_shape0.verticaloffset = 156;
-    
-    tile21_shape0.horizontaloffset = 0;
-    tile21_shape0.verticaloffset = 208;
-    
-    tile22_shape0.horizontaloffset = 120;
-    tile22_shape0.verticaloffset = 208;
-    
-    tile23_shape0.horizontaloffset = 240;
-    tile23_shape0.verticaloffset = 208;
-    
-    tile24_shape0.horizontaloffset = 360;
-    tile24_shape0.verticaloffset = 208;
-    
-    tile25_shape0.horizontaloffset = 480;
-    tile25_shape0.verticaloffset = 208;
-    
-    flash = 1;
-    
-    if (tile1_orientation.q > 5) tile1_orientation.d = 0;
-    else if (tile1_orientation.q < 0) tile1_orientation.d = 5;
-    if (tile2_orientation.q > 5) tile2_orientation.d = 0;
-    else if (tile2_orientation.q < 0) tile2_orientation.d = 5;
-    if (tile3_orientation.q > 5) tile3_orientation.d = 0;
-    else if (tile3_orientation.q < 0) tile3_orientation.d = 5;
-    if (tile4_orientation.q > 5) tile4_orientation.d = 0;
-    else if (tile4_orientation.q < 0) tile4_orientation.d = 5;
-    if (tile5_orientation.q > 5) tile5_orientation.d = 0;
-    else if (tile5_orientation.q < 0) tile5_orientation.d = 5;
-    if (tile6_orientation.q > 5) tile6_orientation.d = 0;
-    else if (tile6_orientation.q < 0) tile6_orientation.d = 5;
-    if (tile7_orientation.q > 5) tile7_orientation.d = 0;
-    else if (tile7_orientation.q < 0) tile7_orientation.d = 5;
-    if (tile8_orientation.q > 5) tile8_orientation.d = 0;
-    else if (tile8_orientation.q < 0) tile8_orientation.d = 5;
-    if (tile9_orientation.q > 5) tile9_orientation.d = 0;
-    else if (tile9_orientation.q < 0) tile9_orientation.d = 5;
-    if (tile10_orientation.q > 5) tile10_orientation.d = 0;
-    else if (tile10_orientation.q < 0) tile10_orientation.d = 5;
-    if (tile11_orientation.q > 5) tile11_orientation.d = 0;
-    else if (tile11_orientation.q < 0) tile11_orientation.d = 5;
-    if (tile12_orientation.q > 5) tile12_orientation.d = 0;
-    else if (tile12_orientation.q < 0) tile12_orientation.d = 5;
-    if (tile13_orientation.q > 5) tile13_orientation.d = 0;
-    else if (tile13_orientation.q < 0) tile13_orientation.d = 5;
-    if (tile14_orientation.q > 5) tile14_orientation.d = 0;
-    else if (tile14_orientation.q < 0) tile14_orientation.d = 5;
-    if (tile15_orientation.q > 5) tile15_orientation.d = 0;
-    else if (tile15_orientation.q < 0) tile15_orientation.d = 5;
-    if (tile16_orientation.q > 5) tile16_orientation.d = 0;
-    else if (tile16_orientation.q < 0) tile16_orientation.d = 5;
-    if (tile17_orientation.q > 5) tile17_orientation.d = 0;
-    else if (tile17_orientation.q < 0) tile17_orientation.d = 5;
-    if (tile18_orientation.q > 5) tile18_orientation.d = 0;
-    else if (tile18_orientation.q < 0) tile18_orientation.d = 5;
-    if (tile19_orientation.q > 5) tile19_orientation.d = 0;
-    else if (tile19_orientation.q < 0) tile19_orientation.d = 5;
-    if (tile20_orientation.q > 5) tile20_orientation.d = 0;
-    else if (tile20_orientation.q < 0) tile20_orientation.d = 5;
-    if (tile21_orientation.q > 5) tile21_orientation.d = 0;
-    else if (tile21_orientation.q < 0) tile21_orientation.d = 5;
-    if (tile22_orientation.q > 5) tile22_orientation.d = 0;
-    else if (tile22_orientation.q < 0) tile22_orientation.d = 5;
-    if (tile23_orientation.q > 5) tile23_orientation.d = 0;
-    else if (tile23_orientation.q < 0) tile23_orientation.d = 5;
-    if (tile24_orientation.q > 5) tile24_orientation.d = 0;
-    else if (tile24_orientation.q < 0) tile24_orientation.d = 5;
-    if (tile25_orientation.q > 5) tile25_orientation.d = 0;
-    else if (tile25_orientation.q < 0) tile25_orientation.d = 5;
-    tile1_shape0.orientation = tile1_orientation.q;
-    tile1_out = tile1_shape0.bitout&flash;
-    tile2_shape0.orientation = tile2_orientation.q;
-    tile2_out = tile2_shape0.bitout&flash;
-    tile3_shape0.orientation = tile3_orientation.q;
-    tile3_out = tile3_shape0.bitout&flash;
-    tile4_shape0.orientation = tile4_orientation.q;
-    tile4_out = tile4_shape0.bitout&flash;
-    tile5_shape0.orientation = tile5_orientation.q;
-    tile5_out = tile5_shape0.bitout&flash;
-    tile6_shape0.orientation = tile6_orientation.q;
-    tile6_out = tile6_shape0.bitout&flash;
-    tile7_shape0.orientation = tile7_orientation.q;
-    tile7_out = tile7_shape0.bitout&flash;
-    tile8_shape0.orientation = tile8_orientation.q;
-    tile8_out = tile8_shape0.bitout&flash;
-    tile9_shape0.orientation = tile9_orientation.q;
-    tile9_out = tile9_shape0.bitout&flash;
-    tile10_shape0.orientation = tile10_orientation.q;
-    tile10_out = tile10_shape0.bitout&flash;
-    tile11_shape0.orientation = tile11_orientation.q;
-    tile11_out = tile11_shape0.bitout&flash;
-    tile12_shape0.orientation = tile12_orientation.q;
-    tile12_out = tile12_shape0.bitout&flash;
-    tile13_shape0.orientation = tile13_orientation.q;
-    tile13_out = tile13_shape0.bitout&flash;
-    tile14_shape0.orientation = tile14_orientation.q;
-    tile14_out = tile14_shape0.bitout&flash;
-    tile15_shape0.orientation = tile15_orientation.q;
-    tile15_out = tile15_shape0.bitout&flash;
-    tile16_shape0.orientation = tile16_orientation.q;
-    tile16_out = tile16_shape0.bitout&flash;
-    tile17_shape0.orientation = tile17_orientation.q;
-    tile17_out = tile17_shape0.bitout&flash;
-    tile18_shape0.orientation = tile18_orientation.q;
-    tile18_out = tile18_shape0.bitout&flash;
-    tile19_shape0.orientation = tile19_orientation.q;
-    tile19_out = tile19_shape0.bitout&flash;
-    tile20_shape0.orientation = tile20_orientation.q;
-    tile20_out = tile20_shape0.bitout&flash;
-    tile21_shape0.orientation = tile21_orientation.q;
-    tile21_out = tile21_shape0.bitout&flash;
-    tile22_shape0.orientation = tile22_orientation.q;
-    tile22_out = tile22_shape0.bitout&flash;
-    tile23_shape0.orientation = tile23_orientation.q;
-    tile23_out = tile23_shape0.bitout&flash;
-    tile24_shape0.orientation = tile24_orientation.q;
-    tile24_out = tile24_shape0.bitout&flash;
-    tile25_shape0.orientation = tile25_orientation.q;
-    tile25_out = tile25_shape0.bitout&flash;
-    
-    
-    if (tile1_orientation.q == 5) {
-      tile1.d = 1;
-    } if (tile1_orientation.q != 5) {
-      tile1.d = 0;
-    }
-    if (tile2_orientation.q == 3) {
-	tile2.d = 1;
-    } if (tile2_orientation.q != 3) {
-	tile2.d = 0;
-    }
-    if (tile3_orientation.q == 4) {
-	tile3.d = 1;
-    } if (tile3_orientation.q != 4) {
-	tile3.d = 0;
-    }
-    if (tile4_orientation.q == 4) {
-	tile4.d = 1;
-    } if (tile4_orientation.q != 4) {
-	tile4.d = 0;
-    }
-    if (tile5_orientation.q == 4) {
-	tile5.d = 1;
-    } if (tile5_orientation.q != 4) {
-	tile5.d = 0;
-    }
-    if (tile6_orientation.q == 2) {
-	tile6.d = 1;
-    } if (tile6_orientation.q != 2) {
-	tile6.d = 0;
-    }
-    if (tile7_orientation.q == 0 | tile7_orientation.q == 3) {
-	tile7.d = 1;
-    } if (tile7_orientation.q != 0 | tile7_orientation.q != 3) {
-	tile7.d = 0;
-    }
-    if (tile8_orientation.q == 0) {
-	tile8.d = 1;
-    } if (tile8_orientation.q != 0) {
-	tile8.d = 0;
-    }
-    if (tile9_orientation.q == 1) {
-	tile9.d = 1;
-    } if (tile9_orientation.q != 1) {
-	tile9.d = 0;
-    }
-    if (tile10_orientation.q == 0) {
-	tile10.d = 1;
-    } if (tile10_orientation.q != 0) {
-	tile10.d = 0;
-    }
-    if (tile11_orientation.q == 3) {
-	tile11.d = 1;
-    } if (tile11_orientation.q != 3) {
-	tile11.d = 0;
-    }
-    if (tile12_orientation.q == 0) {
-	tile12.d = 1;
-    } if (tile12_orientation.q != 0) {
-	tile12.d = 0;
-    }
-    if (tile13_orientation.q == 3) {
-	tile13.d = 1;
-    } if (tile13_orientation.q != 3) {
-	tile13.d = 0;
-    }
-    if (tile14_orientation.q == 4) {
-	tile14.d = 1;
-    } if (tile14_orientation.q != 4) {
-	tile14.d = 0;
-    }
-    if (tile15_orientation.q == 0) {
-	tile15.d = 1;
-    } if (tile15_orientation.q != 0) {
-	tile15.d = 0;
-    }
-    if (tile16_orientation.q == 5) {
-	tile16.d = 1;
-    } if (tile16_orientation.q != 5) {
-	tile16.d = 0;
-    }
-    if (tile17_orientation.q == 3) {
-	tile17.d = 1;
-    } if (tile17_orientation.q != 3) {
-	tile17.d = 0;
-    }
-    if (tile18_orientation.q == 0) {
-	tile18.d = 1;
-    } if (tile18_orientation.q != 0) {
-	tile18.d = 0;
-    }
-    if (tile19_orientation.q == 1) {
-	tile19.d = 1;
-    } if (tile19_orientation.q != 1) {
-	tile19.d = 0;
-    }
-    if (tile20_orientation.q == 5) {
-	tile20.d = 1;
-    } if (tile20_orientation.q != 5) {
-	tile20.d = 0;
-    }
-    if (tile21_orientation.q == 2) {
-	tile21.d = 1;
-    } if (tile21_orientation.q != 2) {
-	tile21.d = 0;
-    }
-    if (tile22_orientation.q == 0 | tile22_orientation.q == 3) {
-	tile22.d = 1;
-    } if (tile22_orientation.q != 0 | tile22_orientation.q != 3) {
-	tile22.d = 0;
-    }
-    if (tile23_orientation.q == 1) {
-	tile23.d = 1;
-    } if (tile23_orientation.q != 1) {
-	tile23.d = 0;
-    }
-    if (tile24_orientation.q == 3) {
-	tile24.d = 1;
-    } if (tile24_orientation.q != 3) {
-	tile24.d = 0;
-    }
-    if (tile25_orientation.q == 0) {
-	tile25.d = 1;
-    } if (tile25_orientation.q != 0) {
-	tile21.d = 0;
-    }
+    led4=0; led5=0;debug1=0; // debug1, led4 and led5 for debug
+
+    if (alutile1.outalu[0] && alutile2.outalu[0] && alutile3.outalu[0] && alutile4.outalu[0] && alutile5.outalu[0] && alutile6.outalu[0] && alutile7.outalu[0] && alutile8.outalu[0] && alutile9.outalu[0] && alutile10.outalu[0] && alutile11.outalu[0] && alutile12.outalu[0] && alutile13.outalu[0] && alutile14.outalu[0] && alutile15.outalu[0] && alutile16.outalu[0] && alutile17.outalu[0] && alutile18.outalu[0] && alutile19.outalu[0] && alutile20.outalu[0] && alutile21.outalu[0] && alutile22.outalu[0] && alutile23.outalu[0] && alutile24.outalu[0] && alutile25.outalu[0])) {
+    led4=1;led5=1;is_correct_solution =1;} // check unique solution
 
     case (game_stage.q){
       game_stage.WIN_THE_LEVEL:
-        flash = flasher.inc_state;
+        //debug_winlevel = 1; // led[2] should turn on      
+        is_correct_solution = 0;
+        selector_out = 0;
+        if (rotate_right & counter.inc_state) game_stage.d = game_stage.GAME_PLAYING; // go back to game_playing
       game_stage.GAME_PLAYING:
-        flash = 1;
-        case(selected_tile.q) {
-    
-    		selected_tile.S1:
-      			selector.horizontaloffset = 0;
-      			selector.verticaloffset = 0;
-      
-      			if (center & counter.inc_state) {
-      	  			alu.alufn = 6b000000;
-    	    			alu.b = 8b00000001;
-        			alu.a = tile1_orientation.q;
-        			tile1_orientation.d = alu.outalu[2:0];
+        debug_play = 1;
+        if (number_of_wins.q == 5) {
+				   game_stage.d = game_stage.WIN_THE_GAME;
+			   }
+        if (is_correct_solution == 1){// TODO:update number of wins ONCE only
+           number_of_wins.d = number_of_wins.q+1;
+				   game_stage.d = game_stage.WIN_THE_LEVEL;
+			   }
+        
+        case(number_of_wins.q) {
+        
+          1:shape5_a.horizontaloffset = 0;
+            shape5_a.verticaloffset = 0;
+            shape5_a.orientation = tile1_orientation.q-1;
+            
+            shape2_a.horizontaloffset = 120;
+            shape2_a.verticaloffset = 0;
+            shape2_a.orientation = tile2_orientation.q-1;
+            
+            shape5_b.horizontaloffset = 240;
+            shape5_b.verticaloffset = 0;
+            shape5_b.orientation = tile3_orientation.q-1;
+            
+            shape3_a.horizontaloffset = 360;
+            shape3_a.verticaloffset = 0;
+            shape3_a.orientation = tile4_orientation.q-1;
+            
+            shape2_b.horizontaloffset = 480;
+            shape2_b.verticaloffset = 0;
+            shape2_b.orientation = tile5_orientation.q-1;
+            
+            shape2_c.horizontaloffset = 60;
+            shape2_c.verticaloffset = 52;
+            shape2_c.orientation = tile6_orientation.q-1;
+            
+            shape4_a.horizontaloffset = 180;
+            shape4_a.verticaloffset = 52;
+            shape4_a.orientation = tile7_orientation.q-1;
+            
+            shape0_a.horizontaloffset = 300;
+            shape0_a.verticaloffset = 52;
+            shape0_a.orientation = tile8_orientation.q-1;
+            
+            shape2_d.horizontaloffset = 420;
+            shape2_d.verticaloffset = 52;
+            shape2_d.orientation = tile9_orientation.q-1;
+            
+            shape1_a.horizontaloffset = 540;
+            shape1_a.verticaloffset = 52;
+            shape1_a.orientation = tile10_orientation.q-1;
+            
+            shape5_c.horizontaloffset = 0;
+            shape5_c.verticaloffset = 104;
+            shape5_c.orientation = tile11_orientation.q-1;
+            
+            shape4_b.horizontaloffset = 120;
+            shape4_b.verticaloffset = 104;
+            shape4_b.orientation = tile12_orientation.q-1;
+            
+            shape1_b.horizontaloffset = 240;
+            shape1_b.verticaloffset = 104;
+            shape1_b.orientation = tile13_orientation.q-1;
+            
+            shape1_c.horizontaloffset = 360;
+            shape1_c.verticaloffset = 104;
+            shape1_c.orientation = tile14_orientation.q-1;
+            
+            shape0_b.horizontaloffset = 480;
+            shape0_b.verticaloffset = 104;
+            shape0_b.orientation = tile15_orientation.q-1;
+            
+            shape4_c.horizontaloffset = 60;
+            shape4_c.verticaloffset = 156;
+            shape4_c.orientation = tile16_orientation.q-1;
+            
+            shape4_d.horizontaloffset = 180;
+            shape4_d.verticaloffset = 156;
+            shape4_d.orientation = tile17_orientation.q-1;
+            
+            shape3_b.horizontaloffset = 300;
+            shape3_b.verticaloffset = 156;
+            shape3_b.orientation = tile18_orientation.q-1;
+            
+            shape2_e.horizontaloffset = 420;
+            shape2_e.verticaloffset = 156;
+            shape2_e.orientation = tile19_orientation.q-1;
+            
+            shape3_c.horizontaloffset = 540;
+            shape3_c.verticaloffset = 156;
+            shape3_c.orientation = tile20_orientation.q-1;
+            
+            shape3_d.horizontaloffset = 0;
+            shape3_d.verticaloffset = 208;
+            shape3_d.orientation = tile21_orientation.q-1;
+            
+            shape4_e.horizontaloffset = 120;
+            shape4_e.verticaloffset = 208;
+            shape4_e.orientation = tile22_orientation.q-1;
+            
+            shape1_d.horizontaloffset = 240;
+            shape1_d.verticaloffset = 208;
+            shape1_d.orientation = tile23_orientation.q-1;
+            
+            shape1_e.horizontaloffset = 360;
+            shape1_e.verticaloffset = 208;
+            shape1_e.orientation = tile24_orientation.q-1;
+            
+            shape1_f.horizontaloffset = 480;
+            shape1_f.verticaloffset = 208;
+            shape1_f.orientation = tile25_orientation.q-1;
+            
+            shape0_c.horizontaloffset = 0;
+            shape0_c.verticaloffset = 0;
+            shape0_c.orientation = 0;
+            
+            shape0_d.horizontaloffset = 0;
+            shape0_d.verticaloffset = 0;
+            shape0_d.orientation = 0;
+            
+            shape0_e.horizontaloffset = 0;
+            shape0_e.verticaloffset = 0;
+            shape0_e.orientation = 0;
+            
+            shape1_g.horizontaloffset = 0;
+            shape1_g.verticaloffset = 0;
+            shape1_g.orientation = 0;
+            
+            shape3_e.horizontaloffset = 0;
+            shape3_e.verticaloffset = 0;
+            shape3_e.orientation = 0;
+            
+            shape3_f.horizontaloffset = 0;
+            shape3_f.verticaloffset = 0;
+            shape3_f.orientation = 0;
+            
+            tile1_out = shape5_a.bitout;
+            tile2_out = shape2_a.bitout;
+            tile3_out = shape5_b.bitout;
+            tile4_out = shape3_a.bitout;
+            tile5_out = shape2_b.bitout;
+            tile6_out = shape2_c.bitout;
+            tile7_out = shape4_a.bitout;
+            tile8_out = shape0_a.bitout;
+            tile9_out = shape2_d.bitout;
+            tile10_out = shape1_a.bitout;
+            tile11_out = shape5_c.bitout;
+            tile12_out = shape4_b.bitout;
+            tile13_out = shape1_b.bitout;
+            tile14_out = shape1_c.bitout;
+            tile15_out = shape0_b.bitout;
+            tile16_out = shape4_c.bitout;
+            tile17_out = shape4_d.bitout;
+            tile18_out = shape3_b.bitout;
+            tile19_out = shape2_e.bitout;
+            tile20_out = shape3_c.bitout;
+            tile21_out = shape3_d.bitout;
+            tile22_out = shape4_e.bitout;
+            tile23_out = shape1_d.bitout;
+            tile24_out = shape1_e.bitout;
+            tile25_out = shape1_f.bitout;
+            
+            alutile1.b = 6b000100;
+            alutile2.b = 6b000001;
+            alutile3.b = 6b000110;
+            alutile4.b = 6b000100;
+            alutile5.b = 6b000101;
+            alutile6.b = 6b000110;
+            alutile7.b = 6b000011;
+            alutile8.b = 6b000100;
+            alutile9.b = 6b000110;
+            alutile10.b = 6b000110;
+            alutile11.b = 6b000100;
+            alutile12.b = 6b000101;
+            alutile13.b = 6b000010;
+            alutile14.b = 6b000011;
+            alutile15.b = 6b000010;
+            alutile16.b = 6b000110;
+            alutile17.b = 6b000010;
+            alutile18.b = 6b000011;
+            alutile19.b = 6b000110;
+            alutile20.b = 6b000110;
+            alutile21.b = 6b000011;
+            alutile22.b = 6b000001;
+            alutile23.b = 6b000001;
+            alutile24.b = 6b000001;
+            alutile25.b = 6b000010;
 
-        			//tile1_orientation.d = tile1_orientation.q + 1;
-      			} if(left & counter.inc_state) {
-          			selected_tile.d = selected_tile.S25;
-          			debug1 = 1;
-      			} if (right & counter.inc_state) {
-          			selected_tile.d = selected_tile.S2;
-          			debug1 = 1;
-      			} if (up & counter.inc_state) {
-          			selected_tile.d = selected_tile.S21;
-          			debug1 = 1;
-      			} if (down & counter.inc_state) {
-          			selected_tile.d = selected_tile.S6;
-         			debug1 = 1;
-        		}  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+            
+          default:shape3_a.horizontaloffset = 0;
+                  shape3_a.verticaloffset = 0;
+                  shape3_a.orientation = tile1_orientation.q-1;
+                  
+                  shape0_a.horizontaloffset = 120;
+                  shape0_a.verticaloffset = 0;
+                  shape0_a.orientation = tile2_orientation.q-1;
+                  
+                  shape3_b.horizontaloffset = 240;
+                  shape3_b.verticaloffset = 0;
+                  shape3_b.orientation = tile3_orientation.q-1;
+                  
+                  shape3_c.horizontaloffset = 360;
+                  shape3_c.verticaloffset = 0;
+                  shape3_c.orientation = tile4_orientation.q-1;
+                  
+                  shape1_a.horizontaloffset = 480;
+                  shape1_a.verticaloffset = 0;
+                  shape1_a.orientation = tile5_orientation.q-1;
+                  
+                  shape1_b.horizontaloffset = 60;
+                  shape1_b.verticaloffset = 52;
+                  shape1_b.orientation = tile6_orientation.q-1;
+                  
+                  shape1_c.horizontaloffset = 180;
+                  shape1_c.verticaloffset = 52;
+                  shape1_c.orientation = tile7_orientation.q-1;
+                  
+                  shape5_a.horizontaloffset = 300;
+                  shape5_a.verticaloffset = 52;
+                  shape5_a.orientation = tile8_orientation.q-1;
+                  
+                  shape4_a.horizontaloffset = 420;
+                  shape4_a.verticaloffset = 52;
+                  shape4_a.orientation = tile9_orientation.q-1;
+                  
+                  shape1_d.horizontaloffset = 540;
+                  shape1_d.verticaloffset = 52;
+                  shape1_d.orientation = tile10_orientation.q-1;
+                  
+                  shape2_a.horizontaloffset = 0;
+                  shape2_a.verticaloffset = 104;
+                  shape2_a.orientation = tile11_orientation.q-1;
+                  
+                  shape1_e.horizontaloffset = 120;
+                  shape1_e.verticaloffset = 104;
+                  shape1_e.orientation = tile12_orientation.q-1;
+                  
+                  shape0_b.horizontaloffset = 240;
+                  shape0_b.verticaloffset = 104;
+                  shape0_b.orientation = tile13_orientation.q-1;
+                  
+                  shape0_c.horizontaloffset = 360;
+                  shape0_c.verticaloffset = 104;
+                  shape0_c.orientation = tile14_orientation.q-1;
+                  
+                  shape3_d.horizontaloffset = 480;
+                  shape3_d.verticaloffset = 104;
+                  shape3_d.orientation = tile15_orientation.q-1;
+                  
+                  shape1_f.horizontaloffset = 60;
+                  shape1_f.verticaloffset = 156;
+                  shape1_f.orientation = tile16_orientation.q-1;
+                  
+                  shape5_b.horizontaloffset = 180;
+                  shape5_b.verticaloffset = 156;
+                  shape5_b.orientation = tile17_orientation.q-1;
+                  
+                  shape2_b.horizontaloffset = 300;
+                  shape2_b.verticaloffset = 156;
+                  shape2_b.orientation = tile18_orientation.q-1;
+                  
+                  shape2_c.horizontaloffset = 420;
+                  shape2_c.verticaloffset = 156;
+                  shape2_c.orientation = tile19_orientation.q-1;
+                  
+                  shape5_c.horizontaloffset = 540;
+                  shape5_c.verticaloffset = 156;
+                  shape5_c.orientation = tile20_orientation.q-1;
+                  
+                  shape3_e.horizontaloffset = 0;
+                  shape3_e.verticaloffset = 208;
+                  shape3_e.orientation = tile21_orientation.q-1;
+                  
+                  shape0_d.horizontaloffset = 120;
+                  shape0_d.verticaloffset = 208;
+                  shape0_d.orientation = tile22_orientation.q-1;
+                  
+                  shape0_e.horizontaloffset = 240;
+                  shape0_e.verticaloffset = 208;
+                  shape0_e.orientation = tile23_orientation.q-1;
+                  
+                  shape1_g.horizontaloffset = 360;
+                  shape1_g.verticaloffset = 208;
+                  shape1_g.orientation = tile24_orientation.q-1;
+                  
+                  shape3_f.horizontaloffset = 480;
+                  shape3_f.verticaloffset = 208;
+                  shape3_f.orientation = tile25_orientation.q-1 ;
+                  
+                  shape2_d.horizontaloffset = 0;
+                  shape2_d.verticaloffset = 0;
+                  shape2_d.orientation = 0;
+                  
+                  shape2_e.horizontaloffset = 0;
+                  shape2_e.verticaloffset = 0;
+                  shape2_e.orientation = 0;
+                  
+                  shape4_b.horizontaloffset = 0;
+                  shape4_b.verticaloffset = 0;
+                  shape4_b.orientation = 0;
+                  
+                  shape4_c.horizontaloffset = 0;
+                  shape4_c.verticaloffset = 0;
+                  shape4_c.orientation = 0;
+                  
+                  shape4_d.horizontaloffset = 0;
+                  shape4_d.verticaloffset = 0;
+                  shape4_d.orientation = 0;
+                  
+                  shape4_e.horizontaloffset = 0;
+                  shape4_e.verticaloffset = 0;
+                  shape4_e.orientation = 0;
+                  
+                  tile1_out = shape3_a.bitout;
+                  tile2_out = shape0_a.bitout;
+                  tile3_out = shape3_b.bitout;
+                  tile4_out = shape3_c.bitout;
+                  tile5_out = shape1_a.bitout;
+                  tile6_out = shape1_b.bitout;
+                  tile7_out = shape1_c.bitout;
+                  tile8_out = shape5_a.bitout;
+                  tile9_out = shape4_a.bitout;
+                  tile10_out = shape1_d.bitout;
+                  tile11_out = shape2_a.bitout;
+                  tile12_out = shape1_e.bitout;
+                  tile13_out = shape0_b.bitout;
+                  tile14_out = shape0_c.bitout;
+                  tile15_out = shape3_d.bitout;
+                  tile16_out = shape1_f.bitout;
+                  tile17_out = shape5_b.bitout;
+                  tile18_out = shape2_b.bitout;
+                  tile19_out = shape2_c.bitout;
+                  tile20_out = shape5_c.bitout;
+                  tile21_out = shape3_e.bitout;
+                  tile22_out = shape0_d.bitout;
+                  tile23_out = shape0_e.bitout;
+                  tile24_out = shape1_g.bitout;
+                  tile25_out = shape3_f.bitout;
+                  
+                  alutile1.b = 6b000100;
+                  alutile2.b = 6b000110;
+                  alutile3.b = 6b000110;
+                  alutile4.b = 6b000100;
+                  alutile5.b = 6b000110;
+                  alutile6.b = 6b000100;
+                  alutile7.b = 6b000010;
+                  alutile8.b = 6b000001;
+                  alutile9.b = 6b000010;
+                  alutile10.b = 6b000110;
+                  alutile11.b = 6b000100;
+                  alutile12.b = 6b000110;
+                  alutile13.b = 6b000100;
+                  alutile14.b = 6b000101;
+                  alutile15.b = 6b000011;
+                  alutile16.b = 6b000100;
+                  alutile17.b = 6b000001;
+                  alutile18.b = 6b000101;
+                  alutile19.b = 6b000011;
+                  alutile20.b = 6b000110;
+                  alutile21.b = 6b000011;
+                  alutile22.b = 6b000010;
+                  alutile23.b = 6b000001;
+                  alutile24.b = 6b000010;
+                  alutile25.b = 6b000001;
+          
+          }
+                                    
+        
+      case(selected_tile.q) {
+    
+  		 selected_tile.S1:
+    			selector.horizontaloffset = 0;
+    			selector.verticaloffset = 0;
+    
+    			if (rotate_right & counter.inc_state) {
+    	  			alu.alufn = 6b000000;
+  	    			alu.b = 8b00000001;
+      			  alu.a = tile1_orientation.q;
+      			tile1_orientation.d = alu.outalu[2:0]; }
+          if (rotate_left & counter.inc_state) {
+    	  			tile1_orientation.d = tile1_orientation.q-1;
+
+      			//tile1_orientation.d = tile1_orientation.q + 1;
+    			} if(left & counter.inc_state) {
+        			selected_tile.d = selected_tile.S25;
+        			debug1 = 1;
+    			} if (right & counter.inc_state) {
+        			selected_tile.d = selected_tile.S2;
+        			debug1 = 1;
+    			} if (up & counter.inc_state) {
+        			selected_tile.d = selected_tile.S21;
+        			debug1 = 1;
+    			} if (down & counter.inc_state) {
+        			selected_tile.d = selected_tile.S6;
+       			debug1 = 1;
+      		}
 
     selected_tile.S2:
       selector.horizontaloffset = 120;
       selector.verticaloffset = 0;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile2_orientation.q;
         tile2_orientation.d = alu.outalu[2:0];
          
         //tile2_orientation.d = tile2_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile2_orientation.d = tile2_orientation.q-1;
+    			} 
+            if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S1;
-          debug1 = 1;
       } if (right & counter.inc_state) {
           selected_tile.d = selected_tile.S3;
-          debug1 = 1;
       } if (up & counter.inc_state) {
           selected_tile.d = selected_tile.S22;
-          debug1 = 1;
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S7;
-          debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+              
+      }
 
     selected_tile.S3:
       selector.horizontaloffset = 240;
       selector.verticaloffset = 0;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile3_orientation.q;
         tile3_orientation.d = alu.outalu[2:0];
 
        // tile3_orientation.d = tile3_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile3_orientation.d = tile3_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S2;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -552,24 +776,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S8;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }
 
     selected_tile.S4:
       selector.horizontaloffset = 360;
       selector.verticaloffset = 0;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile4_orientation.q;
         tile4_orientation.d = alu.outalu[2:0];
 
         //tile4_orientation.d = tile4_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile4_orientation.d = tile4_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S3;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -581,24 +802,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S9;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }
 
     selected_tile.S5:
       selector.horizontaloffset = 480;
       selector.verticaloffset = 0;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
         	alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile5_orientation.q;
         tile5_orientation.d = alu.outalu[2:0];
 
         //tile5_orientation.d = tile5_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile5_orientation.d = tile5_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S4;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -610,23 +828,20 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S10;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      } 
     selected_tile.S6:
       selector.horizontaloffset = 60;
       selector.verticaloffset = 52;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile6_orientation.q;
         tile6_orientation.d = alu.outalu[2:0];
 
       //  tile6_orientation.d = tile6_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile6_orientation.d = tile6_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S5;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -638,24 +853,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S11;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }
 
     selected_tile.S7:
       selector.horizontaloffset = 180;
       selector.verticaloffset = 52;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile7_orientation.q;
         tile7_orientation.d = alu.outalu[2:0];
 
         //tile7_orientation.d = tile7_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile7_orientation.d = tile7_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S6;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -667,23 +879,20 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S12;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      } 
     selected_tile.S8:
       selector.horizontaloffset = 300;
       selector.verticaloffset = 52;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile8_orientation.q;
         tile8_orientation.d = alu.outalu[2:0];
 
        // tile8_orientation.d = tile8_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile8_orientation.d = tile8_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S7;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -695,23 +904,20 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S13;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      } 
     selected_tile.S9:
       selector.horizontaloffset = 420;
       selector.verticaloffset = 52;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile9_orientation.q;
         tile9_orientation.d = alu.outalu[2:0];
 
         //tile9_orientation.d = tile9_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile9_orientation.d = tile9_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S8;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -723,23 +929,20 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S14;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }
     selected_tile.S10:
       selector.horizontaloffset = 540;
       selector.verticaloffset = 52;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile10_orientation.q;
         tile10_orientation.d = alu.outalu[2:0];
 
       //  tile10_orientation.d = tile10_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile10_orientation.d = tile10_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S9;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -751,24 +954,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S15;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      } 
 
     selected_tile.S11:
       selector.horizontaloffset = 0;
       selector.verticaloffset = 104;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile11_orientation.q;
         tile11_orientation.d = alu.outalu[2:0];
 
      //   tile11_orientation.d = tile11_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile11_orientation.d = tile11_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S10;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -780,24 +980,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S16;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      } 
 
     selected_tile.S12:
       selector.horizontaloffset = 120;
       selector.verticaloffset = 104;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
         	alu.b = 8b00000001;
         alu.a = tile12_orientation.q;
         tile12_orientation.d = alu.outalu[2:0];
 
       //  tile12_orientation.d = tile12_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile12_orientation.d = tile12_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S11;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -809,24 +1006,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S17;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
 
     selected_tile.S13:
       selector.horizontaloffset = 240;
       selector.verticaloffset = 104;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile13_orientation.q;
         tile13_orientation.d = alu.outalu[2:0];
 
         //tile13_orientation.d = tile13_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile13_orientation.d = tile13_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S12;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -838,24 +1032,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S18;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
  
     selected_tile.S14:
       selector.horizontaloffset = 360;
       selector.verticaloffset = 104;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile14_orientation.q;
         tile14_orientation.d = alu.outalu[2:0];
 
         //tile14_orientation.d = tile14_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile14_orientation.d = tile14_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S13;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -867,24 +1058,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S19;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      } 
 
     selected_tile.S15:
       selector.horizontaloffset = 480;
       selector.verticaloffset = 104;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
         	alu.b = 8b00000001;
         alu.a = tile15_orientation.q;
         tile15_orientation.d = alu.outalu[2:0];
 
         //tile15_orientation.d = tile15_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile15_orientation.d = tile15_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S14;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -896,24 +1084,20 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S20;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
-
+      }  
     selected_tile.S16:
       selector.horizontaloffset = 60;
       selector.verticaloffset = 156;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile16_orientation.q;
         tile16_orientation.d = alu.outalu[2:0];
 
         //tile16_orientation.d = tile16_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile16_orientation.d = tile16_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S15;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -925,24 +1109,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S21;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
 
     selected_tile.S17:
       selector.horizontaloffset = 180;
       selector.verticaloffset = 156;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile17_orientation.q;
         tile17_orientation.d = alu.outalu[2:0];
 
         //tile17_orientation.d = tile17_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile17_orientation.d = tile17_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S16;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -954,24 +1135,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S22;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
 
     selected_tile.S18:
       selector.horizontaloffset = 300;
       selector.verticaloffset = 156;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile18_orientation.q;
         tile18_orientation.d = alu.outalu[2:0];
 
         //tile18_orientation.d = tile18_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile18_orientation.d = tile18_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S17;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -983,24 +1161,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S23;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
 
     selected_tile.S19:
       selector.horizontaloffset = 420;
       selector.verticaloffset = 156;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile19_orientation.q;
         tile19_orientation.d = alu.outalu[2:0];
 
         //tile19_orientation.d = tile19_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile19_orientation.d = tile19_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S18;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -1012,24 +1187,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S24;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
 
     selected_tile.S20:
       selector.horizontaloffset = 540;
       selector.verticaloffset = 156;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile20_orientation.q;
         tile20_orientation.d = alu.outalu[2:0];
 
         //tile20_orientation.d = tile20_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile20_orientation.d = tile20_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S19;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -1041,24 +1213,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S25;
           debug1 = 1;
-        }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+        } 
 
     selected_tile.S21:
       selector.horizontaloffset = 0;
       selector.verticaloffset = 208;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile21_orientation.q;
         tile21_orientation.d = alu.outalu[2:0];
 
         //tile21_orientation.d = tile21_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile21_orientation.d = tile21_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S20;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -1070,24 +1239,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S1;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
 
     selected_tile.S22:
       selector.horizontaloffset = 120;
       selector.verticaloffset = 208;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile22_orientation.q;
         tile22_orientation.d = alu.outalu[2:0];
 
         //tile22_orientation.d = tile22_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile22_orientation.d = tile22_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S21;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -1099,24 +1265,21 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S2;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
+      }  
 
     selected_tile.S23:
       selector.horizontaloffset = 240;
       selector.verticaloffset = 208;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
         	alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile23_orientation.q;
         tile23_orientation.d = alu.outalu[2:0];
 
         //tile23_orientation.d = tile23_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile23_orientation.d = tile23_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S22;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -1128,24 +1291,20 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S3;
           debug1 = 1;
-      } if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
-
+      } 
     selected_tile.S24:
       selector.horizontaloffset = 360;
       selector.verticaloffset = 208;
-      if (center & counter.inc_state) {
+      if (rotate_right & counter.inc_state) {
     	    alu.alufn = 6b000000;
         	alu.b = 8b00000001;
         alu.a = tile24_orientation.q;
         tile24_orientation.d = alu.outalu[2:0];
 
         //tile24_orientation.d = tile24_orientation.q + 1;
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile24_orientation.d = tile24_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S23;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -1157,26 +1316,22 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S4;
           debug1 = 1;
-      }  if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
-
+      }  
     selected_tile.S25:
       selector.horizontaloffset = 480;
       selector.verticaloffset = 208;
         
         
-     if (center & counter.inc_state) {
+     if (rotate_right & counter.inc_state) {
         	alu.alufn = 6b000000;
     	    alu.b = 8b00000001;
         alu.a = tile25_orientation.q;
         tile25_orientation.d = alu.outalu[2:0];
 
         //tile25_orientation.d = tile25_orientation.q + 1;        
-      } if(left & counter.inc_state) {
+      }if (rotate_left & counter.inc_state) {
+    	  	tile25_orientation.d = tile25_orientation.q-1;
+    			} if(left & counter.inc_state) {
           selected_tile.d = selected_tile.S24;
           debug1 = 1;
       } if (right & counter.inc_state) {
@@ -1188,18 +1343,10 @@ module tilesort (
       } if (down & counter.inc_state) {
           selected_tile.d = selected_tile.S5;
           debug1 = 1;
-      }   if (number_of_wins.q == 5) {
-				game_stage.d = game_stage.WIN_THE_GAME;
-			} if (number_of_wins.q < 5 & tile1.q & tile2.q & tile3.q & tile4.q & tile5.q & tile6.q & tile7.q & tile8.q & tile9.q & tile10.q & tile11.q & tile12.q & tile13.q & tile14.q & tile15.q & tile16.q & tile17.q & tile18.q & tile19.q & tile20.q & tile21.q & tile22.q & tile23.q & tile24.q & tile25.q){
-				number_of_wins.d = number_of_wins.q + 1;
-				game_stage.d = game_stage.WIN_THE_LEVEL;
-			}
-        
-                           
-        }
-    }
-    
-    
-      
-  }
+      } 
+                        
+     }
+   }
+ }
 }
+

@@ -1,12 +1,12 @@
 module shape0base2(clk, en, orientation, address, bitmap);
-   input  clk;
-   input   en;
+    input  clk;
+    input   en;
     input wire [2:0] orientation;
     input wire[5:0] address;
-   output reg [50:0] bitmap;
- reg   [8:0] raddr;
-   reg [5:0] address_reg;
-  reg[2:0] orient_reg;
+    output reg [50:0] bitmap;
+    reg   [8:0] raddr;
+    reg [5:0] address_reg;
+    reg[2:0] orient_reg;
  always @(posedge clk)
  begin
 

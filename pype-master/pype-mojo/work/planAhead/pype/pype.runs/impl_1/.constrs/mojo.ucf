@@ -3,6 +3,8 @@ TIMESPEC TS_clk = PERIOD "clk" 25 MHz HIGH 50 %;
 
 NET "clk" LOC = P56;
 NET "clk" IOSTANDARD = LVTTL;
+NET "rst_n" LOC = P38;
+NET "rst_n" IOSTANDARD = LVTTL;
 
 NET "vga_R" LOC = P24;
 NET "vga_R" IOSTANDARD = LVTTL;
@@ -14,3 +16,16 @@ NET "vga_h_sync" LOC = P15;
 NET "vga_h_sync" IOSTANDARD = LVTTL;
 NET "vga_v_sync" LOC = P12;
 NET "vga_v_sync" IOSTANDARD = LVTTL;
+
+NET "left" LOC = P66;
+NET "left" IOSTANDARD = LVTTL;
+NET "right" LOC = P74;
+NET "right" IOSTANDARD = LVTTL;
+NET "up" LOC = P78;
+NET "up" IOSTANDARD = LVTTL;
+NET "down" LOC = P80;
+NET "down" IOSTANDARD = LVTTL;
+NET "rotate_left" LOC = P84;
+NET "rotate_left" IOSTANDARD = LVTTL;
+NET "rotate_right" LOC = P82;
+NET "rotate_right" IOSTANDARD = LVTTL;

@@ -211,5 +211,6 @@ module newshape3 (clk, en, orientation, address, bitmap);
 
     default: bitmap <= 0;
        endcase
+    else bitmap <=0;
  end
         endmodule

@@ -270,11 +270,6 @@ module newshape1 (clk, en, orientation, address, bitmap);
     9'b011111011 : bitmap <= 51'b000000000000000000000000010000000000000000000000000;
 
 
-
-
-
-
-
     default: bitmap <= 0;
        endcase
  end

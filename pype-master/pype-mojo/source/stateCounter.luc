@@ -22,7 +22,7 @@ module stateCounter (
   always {
     inc_state = 0;
     stateCounter.d = stateCounter.q + 1;
-    if (stateCounter.q == 24b100110001001011010000000) {
+    if (stateCounter.q == 24b010011000100101101000000) {
       inc_state = 1;
       stateCounter.d = 0;
     } 

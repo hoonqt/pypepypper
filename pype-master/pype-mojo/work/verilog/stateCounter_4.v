@@ -18,7 +18,7 @@ module stateCounter_4 (
     
     inc_state = 1'h0;
     M_stateCounter_d = M_stateCounter_q + 1'h1;
-    if (M_stateCounter_q == 24'h989680) begin
+    if (M_stateCounter_q == 24'h4c4b40) begin
       inc_state = 1'h1;
       M_stateCounter_d = 1'h0;
     end

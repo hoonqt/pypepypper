@@ -27,8 +27,8 @@ module shape4draw (
   always {
     counterh = hvsync.counterX;
     counterv = hvsync.counterY;
-    base.en = ((counterh>=375+horizontaloffset & counterh<=477+horizontaloffset));    
-    if (((counterh>=375+horizontaloffset & counterh<=477+horizontaloffset)) &((counterv>=120+verticaloffset)&(counterv<=180+verticaloffset))) {
+    base.en = ((counterh>=405+horizontaloffset & counterh<=507+horizontaloffset));    
+    if (((counterh>=405+horizontaloffset & counterh<=507+horizontaloffset)) &((counterv>=120+verticaloffset)&(counterv<=180+verticaloffset))) {
     
         if (orientation == 0 | orientation == 5) {
           oriented = 0; }
@@ -56,7 +56,7 @@ module shape4draw (
         fullcounter = base.bitmap;
       
       
-        bitout = fullcounter[51-((counterh-375-horizontaloffset)/2)];
+        bitout = fullcounter[51-((counterh-405-horizontaloffset)/2)];
       
         
       
